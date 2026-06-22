@@ -9,9 +9,8 @@
   --bg: #0E0E0E;
   --text: #F0EDE8;
   
-  /* Новые переменные для качества */
   --card-bg: #FDF8EF;
-  --fact-color: #C04A38; /* Темно-красный для текста факта */
+  --fact-color: #C04A38; 
   --shadow: 0 10px 30px rgba(0,0,0,0.5);
   --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
@@ -33,8 +32,6 @@ body {
   width: min(1200px, 90%);
   margin: auto;
 }
-
-/* ===== Шапка ===== */
 .header {
   background: #FFFFFF;
   padding: 15px 0;
