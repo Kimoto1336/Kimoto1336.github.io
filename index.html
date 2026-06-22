@@ -1,27 +1,18 @@
-<!-- index.html -->
-
 <!DOCTYPE html>
-
 <html lang="ru">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ИБЧ — Истина или Бред Человечества</title>
-
     <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
     <header class="header">
         <div class="container">
-
-            ```
             <div class="logo">
                 ИБЧ
             </div>
-
             <nav class="nav">
                 <a href="main.html">Главная</a>
                 <a href="quiz.html">Викторины</a>
@@ -29,129 +20,78 @@
                 <a href="#">Лидеры</a>
                 <a href="#">Профиль</a>
             </nav>
-
             <button id="themeBtn" class="theme-btn">
                 🌙
             </button>
-            ```
-
         </div>
     </header>
 
     <main>
-
+        <!-- Секция заголовка -->
         <section class="hero">
             <div class="container">
-
-                ```
                 <h1>
-                    Истина или Бред Человечества
+                    Иногда бывает что?<br>
+                    Истина или бред человеческий?
                 </h1>
-
-                <p>
-                    Каждый факт может оказаться ложью.
-                    Каждый миф может оказаться правдой.
-                </p>
-
-                <button class="primary-btn">
-                    Получить случайный факт
-                </button>
-
             </div>
-            ```
-
         </section>
 
+        <!-- Секция категорий (горизонтальные кнопки) -->
+        <section class="categories">
+            <button class="category-btn">Наука</button>
+            <button class="category-btn">История</button>
+            <button class="category-btn">Мемы</button>
+            <button class="category-btn">Животные</button>
+            <button class="category-btn">Игры</button>
+            <button class="category-btn">18+</button>
+        </section>
+
+        <!-- Секция с карточкой факта -->
         <section class="fact-section">
             <div class="container">
-
-                ```
                 <div class="fact-card">
-
-                    <span class="category">
-                        Наука
-                    </span>
-
-                    <h2>
-                        Бананы являются ягодами
-                    </h2>
-
-                    <p>
-                        Попробуй определить, правда это или ложь.
-                    </p>
-
-                    <div class="actions">
-
-                        <button>❤️ Лайк</button>
-                        <button>⭐ Избранное</button>
-                        <button>🔗 Поделиться</button>
-
+                    <h2>ТЕКСТ ФАКТА</h2>
+                    
+                    <div class="tags">
+                        <span>наука</span>
+                        <span>история</span>
+                        <span>человек</span>
                     </div>
 
+                    <div class="actions">
+                        <button class="true-btn">ПРАВДА</button>
+                        <button class="false-btn">ЛОЖЬ</button>
+                    </div>
+
+                    <button class="random-fact-btn">Получить случайный факт</button>
                 </div>
-
             </div>
-            ```
-
-        </section>
-
-        <section class="categories">
-            <div class="container">
-
-                ```
-                <h2>Категории</h2>
-
-                <div class="category-grid">
-
-                    <div class="category-item">🔬 Наука</div>
-                    <div class="category-item">📜 История</div>
-                    <div class="category-item">🚀 Космос</div>
-                    <div class="category-item">💻 Технологии</div>
-                    <div class="category-item">🎮 Игры</div>
-                    <div class="category-item">🐾 Животные</div>
-                    <div class="category-item">🌍 География</div>
-                    <div class="category-item">😂 Мемы</div>
-
-                </div>
-
-            </div>
-            ```
-
         </section>
 
     </main>
 
     <footer class="footer">
-
         <div class="container footer-grid">
-
-            ```
             <div>
                 <h3>ИБЧ</h3>
                 <p>Истина или Бред Человечества</p>
             </div>
-
             <div>
                 <h3>Создатели</h3>
                 <p>Учебный проект</p>
                 <p>Frontend Developer</p>
                 <p>Backend Developer</p>
             </div>
-
             <div>
                 <h3>Технологии</h3>
                 <p>HTML</p>
                 <p>CSS</p>
                 <p>JavaScript</p>
             </div>
-            ```
-
         </div>
-
     </footer>
 
     <script src="./js/app.js"></script>
-
 </body>
-
 </html>
