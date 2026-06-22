@@ -1,0 +1,250 @@
+/* css/style.css — Палитра «Триединство» (Helmarkfjord) */
+
+:root {
+  /* Основные цвета палитры */
+  --primary: #D4AF37;     /* Золото */
+  --secondary: #B57A8C;   /* Роза маркизы */
+  --accent: #3D6B70;      /* Глубина фьорда (бирюзовый) */
+
+  --bg: #0E0E0E;          /* Абсолютная тьма (фон) */
+  --card: #1A1A1A;        /* Чуть светлее фона для карточек */
+  --text: #F0EDE8;        /* Выбеленный мел (основной текст) */
+  --muted: #8A8580;       /* Приглушённый оттенок */
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
+
+.container {
+  width: min(1200px, 90%);
+  margin: auto;
+}
+
+/* ===== Шапка (белая по макету) ===== */
+.header {
+  background: #FFFFFF;
+  padding: 15px 0;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.header .container {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.logo {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--primary); /* золото */
+  margin-right: 40px;
+}
+
+.nav {
+  display: flex;
+  gap: 25px;
+  margin-right: auto; /* Сдвигает кнопку темы вправо */
+}
+
+.nav a {
+  color: #1A1A1A; /* Темный текст на белом фоне */
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s;
+}
+
+.nav a:hover {
+  color: var(--secondary);
+}
+
+.theme-btn {
+  border: none;
+  background: none;
+  color: #1A1A1A;
+  cursor: pointer;
+  font-size: 1.2rem;
+}
+
+/* ===== Герой ===== */
+.hero {
+  background: var(--bg);
+  text-align: center;
+  padding: 80px 0 30px;
+}
+
+.hero h1 {
+  font-size: 2.5rem;
+  color: var(--primary);
+  margin-bottom: 10px;
+}
+
+.hero h1 span {
+  color: var(--primary);
+}
+
+.hero p {
+  max-width: 700px;
+  margin: auto;
+  opacity: 0.85;
+  color: var(--text);
+}
+
+/* ===== Панель категорий (горизонтальная) ===== */
+.categories {
+  background: var(--bg);
+  padding: 0 0 40px 0;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.category-btn {
+  background: var(--accent);
+  color: #fff;
+  padding: 8px 16px;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 0.9rem;
+  transition: opacity 0.2s;
+}
+
+.category-btn:hover {
+  opacity: 0.8;
+}
+
+/* ===== Секция факта (карточка) ===== */
+.fact-section {
+  background: var(--bg);
+  padding: 0 0 60px 0;
+}
+
+.fact-card {
+  max-width: 700px;
+  margin: 0 auto;
+  background: #FDF8EF; /* Цвет пергамента */
+  border-radius: 8px;
+  padding: 40px 50px;
+  text-align: center;
+}
+
+.fact-card h2 {
+  color: #D65A4A; /* Красновато-коричневый заголовок */
+  font-family: 'Times New Roman', serif;
+  font-weight: 400;
+  font-size: 2.8rem;
+  letter-spacing: 1px;
+  margin-bottom: 15px;
+  text-transform: uppercase;
+}
+
+/* Теги (наука, история, человек) */
+.tags {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 40px;
+  flex-wrap: wrap;
+}
+
+.tags span {
+  border: 1px solid #D65A4A;
+  color: #D65A4A;
+  border-radius: 15px;
+  padding: 2px 12px;
+  font-size: 0.7rem;
+  background: rgba(214, 90, 74, 0.05);
+}
+
+/* Кнопки Правда/Ложь */
+.actions {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.actions button {
+  background: var(--primary);
+  color: #1A1A1A;
+  border: none;
+  border-radius: 4px;
+  padding: 15px 0;
+  width: 160px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.3s;
+}
+
+.actions button:hover {
+  transform: scale(1.03);
+  box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+}
+
+/* Кнопка "Получить случайный факт" */
+.random-fact-btn {
+  background: var(--primary);
+  color: #1A1A1A;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 20px;
+  margin-top: 15px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: opacity 0.2s;
+  opacity: 0.8;
+}
+
+.random-fact-btn:hover {
+  opacity: 1;
+}
+
+/* ===== Футер ===== */
+.footer {
+  margin-top: 0; /* Убираем огромный отступ, так как снизу темный фон */
+  padding: 50px 0;
+  background: #0A0A0A;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 30px;
+}
+
+.footer a {
+  color: var(--text);
+  text-decoration: none;
+  opacity: 0.7;
+  transition: opacity 0.3s;
+}
+
+.footer a:hover {
+  opacity: 1;
+  color: var(--secondary);
+}
+
+/* ===== Скроллбар ===== */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--primary);
+  border-radius: 4px;
+}
