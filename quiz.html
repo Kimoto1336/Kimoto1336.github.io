@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Викторины | ИБЧ</title>
+
+  <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+
+<header class="header">
+  <div class="container">
+
+```
+<div class="logo">ИБЧ</div>
+
+<nav class="nav">
+  <a href="index.html">Главная</a>
+  <a href="quiz.html">Викторины</a>
+</nav>
+```
+
+  </div>
+</header>
+
+<main>
+
+<section class="hero">
+  <div class="container">
+
+```
+<h1>Викторины</h1>
+
+<p>
+  Проверь свои знания и заработай XP.
+</p>
+```
+
+  </div>
+</section>
+
+<section class="categories">
+  <div class="container">
+
+```
+<div class="category-grid">
+
+  <div class="quiz-mode" data-mode="5">
+    ⚡ Быстрая викторина
+    <small>5 вопросов</small>
+  </div>
+
+  <div class="quiz-mode" data-mode="10">
+    📚 Стандартная викторина
+    <small>10 вопросов</small>
+  </div>
+
+  <div class="quiz-mode" data-mode="infinity">
+    ♾ Бесконечный режим
+  </div>
+
+  <div class="quiz-mode" data-mode="timer">
+    ⏱ На время
+  </div>
+
+</div>
+```
+
+  </div>
+</section>
+
+<section class="quiz-container">
+  <div class="container">
+
+```
+<div class="fact-card">
+
+  <div id="question">
+    Нажмите режим викторины
+  </div>
+
+  <div class="quiz-buttons">
+
+    <button id="trueBtn">
+      Правда
+    </button>
+
+    <button id="falseBtn">
+      Ложь
+    </button>
+
+  </div>
+
+  <div id="result"></div>
+
+</div>
+```
+
+  </div>
+</section>
+
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <p>© 2026 ИБЧ</p>
+  </div>
+</footer>
+
+<script src="./js/quiz.js"></script>
+
+</body>
+</html>
