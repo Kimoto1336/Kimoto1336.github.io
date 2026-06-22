@@ -50,8 +50,8 @@
         <!-- Секция с карточкой факта -->
         <section class="fact-section">
             <div class="container">
-                <div class="fact-card">
-                    <h2>ТЕКСТ ФАКТА</h2>
+                <div class="fact-card" id="factCard">
+                    <h2 id="factTitle">ТЕКСТ ФАКТА</h2>
                     
                     <div class="tags">
                         <span>наука</span>
@@ -60,16 +60,19 @@
                     </div>
 
                     <div class="actions">
-                        <button class="true-btn">ПРАВДА</button>
-                        <button class="false-btn">ЛОЖЬ</button>
+                        <button class="action-btn true-btn" data-answer="true">ПРАВДА</button>
+                        <button class="action-btn false-btn" data-answer="false">ЛОЖЬ</button>
                     </div>
 
-                    <button class="random-fact-btn">Получить случайный факт</button>
+                    <button class="random-fact-btn" id="randomFactBtn">Получить случайный факт</button>
                 </div>
             </div>
         </section>
 
     </main>
+
+    <!-- Контейнер для всплывающих анимаций результата (Правда/Ложь) -->
+    <div id="resultToast" class="toast-hidden"></div>
 
     <footer class="footer">
         <div class="container footer-grid">
