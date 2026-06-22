@@ -1,39 +1,15 @@
-const questions = [
-{
-text: "Бананы являются ягодами",
-answer: true,
-explanation:
-"С точки зрения ботаники банан действительно относится к ягодам."
-},
+async function loadFacts(){
 
-{
-text: "Китайскую стену видно из космоса",
-answer: false,
-explanation:
-"Это распространённый миф. Невооружённым глазом стену практически невозможно увидеть с орбиты."
-},
+  const response =
+    await fetch("/api/facts");
 
-{
-text: "У осьминога три сердца",
-answer: true,
-explanation:
-"Два сердца работают на жабры, третье обеспечивает кровью всё тело."
-},
+  questions =
+    await response.json();
 
-{
-text: "Земля плоская",
-answer: false,
-explanation:
-"Земля имеет форму геоида и близка к шару."
-},
-
-{
-text: "Мёд никогда не портится",
-answer: true,
-explanation:
-"При правильном хранении мёд может сохраняться тысячи лет."
+  loadQuestion();
 }
-];
+
+loadFacts();
 
 let currentQuestion = null;
 let score = 0;
