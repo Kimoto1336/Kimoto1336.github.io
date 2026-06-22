@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Профиль | ИБЧ</title>
+
+  <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+
+<header class="header">
+  <div class="container">
+
+```
+<div class="logo">ИБЧ</div>
+
+<nav class="nav">
+  <a href="index.html">Главная</a>
+  <a href="quiz.html">Викторины</a>
+  <a href="profile.html">Профиль</a>
+</nav>
+```
+
+  </div>
+</header>
+
+<main>
+
+<section class="profile-section">
+
+  <div class="container">
+
+```
+<div class="profile-card">
+
+  <div class="profile-header">
+
+    <img
+      src="https://api.dicebear.com/7.x/adventurer/svg?seed=IBCH"
+      alt="Аватар"
+      class="avatar"
+    >
+
+    <div>
+
+      <h1 id="nickname">
+        Игрок
+      </h1>
+
+      <p id="level">
+        Уровень 1
+      </p>
+
+    </div>
+
+  </div>
+
+  <div class="xp-block">
+
+    <div class="xp-label">
+      XP: <span id="xpValue">0</span>
+    </div>
+
+    <div class="xp-bar">
+
+      <div
+        id="xpFill"
+        class="xp-fill"
+      ></div>
+
+    </div>
+
+  </div>
+
+</div>
+```
+
+  </div>
+
+</section>
+
+<section class="stats-section">
+
+  <div class="container">
+
+```
+<h2>Статистика</h2>
+
+<div class="stats-grid">
+
+  <div class="stat-card">
+    <h3 id="factsRead">0</h3>
+    <p>Фактов прочитано</p>
+  </div>
+
+  <div class="stat-card">
+    <h3 id="quizWins">0</h3>
+    <p>Правильных ответов</p>
+  </div>
+
+  <div class="stat-card">
+    <h3 id="likesCount">0</h3>
+    <p>Лайков поставлено</p>
+  </div>
+
+</div>
+```
+
+  </div>
+
+</section>
+
+<section class="achievements-section">
+
+  <div class="container">
+
+```
+<h2>Достижения</h2>
+
+<div class="achievement-grid">
+
+  <div class="achievement">
+    🥇 Первый факт
+  </div>
+
+  <div class="achievement">
+    🧠 Первая викторина
+  </div>
+
+  <div class="achievement">
+    🚀 Космический эксперт
+  </div>
+
+  <div class="achievement">
+    📚 Мастер истории
+  </div>
+
+</div>
+```
+
+  </div>
+
+</section>
+
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <p>© 2026 ИБЧ</p>
+  </div>
+</footer>
+
+<script src="./js/profile.js"></script>
+
+</body>
+</html>
