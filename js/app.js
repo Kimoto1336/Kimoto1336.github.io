@@ -179,6 +179,7 @@ const categoriesData = {
 let currentFact = null;
 let currentCategory = 'all';
 let answerGiven = false; // был ли дан ответ на текущий факт
+let ageConfirmed = false; // подтвердил ли пользователь возраст 18+
 
 // =================== ФУНКЦИИ ===================
 function getRandomFact(category = 'all') {
@@ -322,12 +323,23 @@ window.addEventListener('click', (e) => {
 });
 
 // Категории
+// Категории
 categoryBtns.forEach(btn => {
   btn.addEventListener('click', function() {
+    const categoryName = this.textContent.trim();
+
+    // Если выбрана категория 18+ и возраст ещё не подтверждён
+    if (categoryName === '18+' && !ageConfirmed) {
+      const isAdult = confirm('Вам есть 18 лет?');
+      if (!isAdult) {
+        showToast('🔞 Доступ к категории 18+ только для взрослых!', false);
+        return; 
+      }
+      ageConfirmed = true;
+    }
     categoryBtns.forEach(b => b.classList.remove('active'));
     this.classList.add('active');
-    
-    const categoryName = this.textContent.trim();
+
     if (categoriesData[categoryName]) {
       currentCategory = categoryName;
     } else {
