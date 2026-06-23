@@ -3,3 +3,19 @@
      padding: 0;
      box-sizing: border-box;
 }
+ body {
+     font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+     background-color: #0E0E0E;
+     color: #F0EDE8;
+     min-height: 100vh;
+     display: flex;
+     flex-direction: column;
+     overflow-x: hidden;
+     position: relative;
+ }
+.container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+      z-index: 1;
+}
