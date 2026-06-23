@@ -19,3 +19,13 @@
       padding: 0 24px;
       z-index: 1;
 }
+.header {
+      padding: 18px 0;
+      border-bottom: 1px solid #B57A8C;
+      position: sticky;
+      top: 0;
+      background: #F0EDE8;
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      z-index: 100;
+}
