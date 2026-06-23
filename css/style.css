@@ -81,4 +81,22 @@
       transform: scale(1.05);
       box-shadow: 0 6px 20px rgba(212, 175, 55, 0.3);
 }
-
+.theme-btn {
+      background: transparent;
+      border: 1.5px solid #B57A8C;
+      border-radius: 40px;
+      width: 44px;
+      height: 44px;
+      font-size: 20px;
+      cursor: pointer;
+      color: #F0EDE8;
+      transition: background 0.25s ease, border-color 0.25s ease, transform 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+}
+.theme-btn:hover {
+      background: rgba(181, 122, 140, 0.15);
+      border-color: #B57A8C;
+      transform: scale(1.05);
+ }
