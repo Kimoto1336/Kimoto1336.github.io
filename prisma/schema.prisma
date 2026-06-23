@@ -1,83 +1,62 @@
 generator client {
-provider = "prisma-client-js"
+  provider = "prisma-client-js"
 }
 
 datasource db {
-provider = "postgresql"
-url      = env("DATABASE_URL")
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 model User {
-id        String   @id @default(cuid())
+  id        String   @id @default(cuid())
+  nickname  String
+  email     String   @unique
+  password  String
+  xp        Int      @default(0)
+  level     Int      @default(1)
+  factsRead Int      @default(0)
+  quizWins  Int      @default(0)
+  createdAt DateTime @default(now())
 
-nickname  String
-email     String   @unique
-password  String
-
-xp        Int      @default(0)
-level     Int      @default(1)
-
-factsRead Int      @default(0)
-quizWins  Int      @default(0)
-
-createdAt DateTime @default(now())
-
-comments  Comment[]
-likes     Like[]
+  comments Comment[]
+  likes    Like[]
 }
 
 model Fact {
-id          String   @id @default(cuid())
+  id          String   @id @default(cuid())
+  title       String
+  category    String
+  truth       Boolean
+  explanation String?
+  views       Int      @default(0)
+  createdAt   DateTime @default(now())
 
-title       String
-category    String
-
-truth       Boolean
-
-explanation String?
-
-views       Int      @default(0)
-
-createdAt   DateTime @default(now())
-
-comments    Comment[]
-likes       Like[]
+  comments Comment[]
+  likes    Like[]
 }
 
 model Comment {
-id        String   @id @default(cuid())
+  id        String   @id @default(cuid())
+  text      String
+  createdAt DateTime @default(now())
+  userId    String
+  factId    String
 
-text      String
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  fact Fact @relation(fields: [factId], references: [id], onDelete: Cascade)
 
-createdAt DateTime @default(now())
-
-userId    String
-factId    String
-
-user User @relation(
-fields:[userId],
-references:[id]
-)
-
-fact Fact @relation(
-fields:[factId],
-references:[id]
-)
+  @@index([userId])
+  @@index([factId])
 }
 
 model Like {
-id        String @id @default(cuid())
+  id     String @id @default(cuid())
+  userId String
+  factId String
 
-userId    String
-factId    String
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  fact Fact @relation(fields: [factId], references: [id], onDelete: Cascade)
 
-user User @relation(
-fields:[userId],
-references:[id]
-)
-
-fact Fact @relation(
-fields:[factId],
-references:[id]
-)
+  @@index([userId])
+  @@index([factId])
 }
