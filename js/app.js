@@ -73,7 +73,7 @@ const categoriesData = {
 // =================== ПЕРЕМЕННЫЕ СОСТОЯНИЯ ===================
 let currentFact = null;
 let currentCategory = 'all';
-let answerPending = false; // блокировка повторных нажатий
+let answerGiven = false; // был ли дан ответ на текущий факт
 
 // =================== ФУНКЦИИ ===================
 function getRandomFact(category = 'all') {
@@ -86,12 +86,20 @@ function getRandomFact(category = 'all') {
   }
 }
 
-function changeFact() {
-  // Сбрасываем блокировку ответа
-  answerPending = false;
-  // Включаем кнопки обратно (на случай, если были отключены)
+function resetUI() {
+  // Сбрасываем состояние ответа
+  answerGiven = false;
+  // Включаем кнопки ответа
   actionBtns.forEach(b => b.disabled = false);
+  // Убираем активность звезды
+  if (hintStar) {
+    hintStar.classList.remove('active');
+  }
+}
 
+function changeFact() {
+  resetUI();
+  
   factCard.classList.remove('fade-in');
   factCard.classList.add('fade-out');
 
@@ -121,15 +129,22 @@ function showToast(message, isCorrect) {
 }
 
 // =================== ОБРАБОТЧИКИ ===================
+
+// Кнопка "Случайный факт"
 if (randomBtn) {
-  randomBtn.addEventListener('click', changeFact);
+  randomBtn.addEventListener('click', () => {
+    if (!answerGiven) {
+      showToast("Сначала ответьте на текущий факт!", false);
+      return;
+    }
+    changeFact();
+  });
 }
 
-// Кнопки ПРАВДА / ЛОЖЬ (главное изменение)
+// Кнопки "ПРАВДА" и "ЛОЖЬ"
 actionBtns.forEach(btn => {
   btn.addEventListener('click', function() {
-    // Защита от повторных ответов и отсутствия факта
-    if (answerPending || !currentFact) {
+    if (answerGiven || !currentFact) {
       if (!currentFact) showToast("Сначала получите факт!", false);
       return;
     }
@@ -138,12 +153,14 @@ actionBtns.forEach(btn => {
     const isRight = (userAnswer === currentFact.isTrue);
     const buttonText = this.textContent.trim();
 
-    // Меняем текст факта на аргумент и результат
-    const resultEmoji = isRight ? '✅' : '❌';
-    const resultText = isRight ? 'Верно!' : 'Неверно!';
-    factTitle.textContent = `${resultEmoji} ${resultText} ${currentFact.argument}`;
+    // Меняем текст факта на простой вердикт
+    if (isRight) {
+      factTitle.textContent = "✅ Верно, ответ правильный";
+    } else {
+      factTitle.textContent = "❌ Неверно, ответ неверный";
+    }
 
-    // Показываем тост
+    // Тост
     if (isRight) {
       showToast(`✅ Верно! Вы выбрали "${buttonText}"`, true);
       this.classList.add('correct-flash');
@@ -152,37 +169,46 @@ actionBtns.forEach(btn => {
       this.classList.add('wrong-flash');
     }
 
-    // Блокируем кнопки до следующего факта
-    answerPending = true;
+    // Блокируем кнопки ответа и фиксируем, что ответ дан
+    answerGiven = true;
     actionBtns.forEach(b => b.disabled = true);
 
-    // Убираем цветовые эффекты через 500мс
+    // Активируем звезду (подсветка)
+    if (hintStar) {
+      hintStar.classList.add('active');
+    }
+
+    // Убираем цветовые эффекты с кнопки через 500мс
     setTimeout(() => {
       this.classList.remove('correct-flash', 'wrong-flash');
     }, 500);
-
-    // Автоматически загружаем следующий факт через 2.5 секунды
-    setTimeout(() => {
-      changeFact();
-    }, 2500);
   });
 });
 
-// Подсказка (звезда) — без изменений
-hintStar.addEventListener('click', () => {
-  if (!currentFact) {
-    showToast("Нет факта для подсказки", false);
-    return;
-  }
-  hintBadge.textContent = currentFact.isTrue ? 'Правда' : 'Ложь';
-  hintBadge.style.backgroundColor = currentFact.isTrue ? '#4CAF50' : '#F44336';
-  hintText.textContent = currentFact.argument;
-  hintModal.style.display = 'flex';
-});
+// Звезда-подсказка
+if (hintStar) {
+  hintStar.addEventListener('click', () => {
+    if (!currentFact) {
+      showToast("Нет факта для подсказки", false);
+      return;
+    }
+    if (!answerGiven) {
+      showToast("Сначала ответьте на факт!", false);
+      return;
+    }
+    // Открываем модальное окно с аргументом
+    hintBadge.textContent = currentFact.isTrue ? 'Правда' : 'Ложь';
+    hintBadge.style.backgroundColor = currentFact.isTrue ? '#4CAF50' : '#F44336';
+    hintText.textContent = currentFact.argument;
+    hintModal.style.display = 'flex';
+  });
+}
 
-hintClose.addEventListener('click', () => {
-  hintModal.style.display = 'none';
-});
+if (hintClose) {
+  hintClose.addEventListener('click', () => {
+    hintModal.style.display = 'none';
+  });
+}
 
 window.addEventListener('click', (e) => {
   if (e.target === hintModal) {
