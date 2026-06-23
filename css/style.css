@@ -29,3 +29,28 @@
       -webkit-backdrop-filter: blur(14px);
       z-index: 100;
 }
+.header .container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px 20px;
+}
+.logo {
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      color: #3D6B70;
+      text-transform: uppercase;
+      user-select: none;
+}
+
+.logo::after {
+      content: '';
+      display: block;
+      width: 32px;
+      height: 3px;
+      background: #B57A8C;
+      border-radius: 4px;
+      margin-top: 2px;
+}
