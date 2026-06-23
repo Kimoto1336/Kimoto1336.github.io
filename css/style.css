@@ -233,7 +233,7 @@
             background: none;
             border: none;
             font-size: 28px;
-            color: #D4AF37;
+            color: #888;
             line-height: 1;
             transition: color 0.25s ease;
             padding: 0;
@@ -241,6 +241,12 @@
             display: flex;
             align-items: center;
             justify-content: center;
+}
+
+.hint-star.active {
+  color: #FFD700;       
+  text-shadow: 0 0 8px rgba(255, 215, 0, 0.6);
+  transform: scale(1.1);
 }
 
 .hint-star-wrapper:hover .hint-star {
