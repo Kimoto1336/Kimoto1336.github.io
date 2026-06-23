@@ -764,16 +764,43 @@ let currentFact = null;
 let currentCategory = 'all';
 let answerGiven = false; // был ли дан ответ на текущий факт
 let ageConfirmed = false; // подтвердил ли пользователь возраст 18+
+const shownFactsByCategory = {};
 
 // =================== ФУНКЦИИ ===================
 function getRandomFact(category = 'all') {
+  // Получаем массив фактов для категории
+  let facts;
   if (category === 'all') {
-    const allFacts = Object.values(categoriesData).flat();
-    return allFacts[Math.floor(Math.random() * allFacts.length)];
+    facts = Object.values(categoriesData).flat();
   } else {
-    const facts = categoriesData[category];
-    return facts[Math.floor(Math.random() * facts.length)];
+    facts = categoriesData[category];
   }
+
+  // Инициализируем Set для категории, если его ещё нет
+  if (!shownFactsByCategory[category]) {
+    shownFactsByCategory[category] = new Set();
+  }
+  const shownSet = shownFactsByCategory[category];
+
+  // Если все факты уже показаны — сбрасываем историю
+  if (shownSet.size >= facts.length) {
+    shownSet.clear();
+  }
+
+  // Составляем список индексов ещё не показанных фактов
+  const availableIndices = [];
+  for (let i = 0; i < facts.length; i++) {
+    if (!shownSet.has(i)) {
+      availableIndices.push(i);
+    }
+  }
+
+  // Выбираем случайный из доступных
+  const randomIndex = availableIndices[Math.floor(Math.random() * availableIndices.length)];
+  // Запоминаем, что этот индекс показали
+  shownSet.add(randomIndex);
+
+  return facts[randomIndex];
 }
 
 function resetUI() {
