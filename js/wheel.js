@@ -28,7 +28,7 @@ const categoriesData = {
     { text: "Магнитное поле Земли переворачивается раз в миллион лет", isTrue: true, argument: "За историю планеты полюса менялись местами сотни раз." },
     { text: "Если долго смотреть на микроволновку, можно получить сверхспособности", isTrue: false, argument: "Микроволновка не даёт радиацию, а стекло лишь экранирует волны." },
     { text: "Сахар не растворяется в бензине, но зато в нём можно хранить секреты", isTrue: false, argument: "Сахар не растворим в бензине, но это не метод шифрования." },
-{ text: "Алмазы можно получить из арахисового масла", isTrue: true, argument: "Теоретически возможно при сверхвысоком давлении, но крайне неэффективно." },
+    { text: "Алмазы можно получить из арахисового масла", isTrue: true, argument: "Теоретически возможно при сверхвысоком давлении, но крайне неэффективно." },
     { text: "Если собрать все нервы человека в одну линию, она обернёт Землю 2.5 раза", isTrue: true, argument: "Суммарная длина нервных волокон — около 100 000 км." },
     { text: "Кристаллы льда всегда шестиугольные", isTrue: true, argument: "Молекулы воды образуют гексагональную решётку." },
     { text: "В вакууме перо и молоток падают с одинаковой скоростью", isTrue: true, argument: "Гравитация действует одинаково, без сопротивления воздуха." },
@@ -58,7 +58,7 @@ const categoriesData = {
     { text: "Гладиаторы в Риме сражались насмерть всегда", isTrue: false, argument: "Многие бои заканчивались без смертельного исхода, особенно с ценными бойцами." }
   ],
   "Мемы": [
-{ text: "Кот-барабанщик — вымерший вид", isTrue: false, argument: "Это интернет-мем с котом, играющим на барабанах." },
+    { text: "Кот-барабанщик — вымерший вид", isTrue: false, argument: "Это интернет-мем с котом, играющим на барабанах." },
     { text: "«Это Спарта!» — историческая фраза", isTrue: false, argument: "Из фильма '300 спартанцев', в реальности такого не кричали." },
     { text: "Шапочка из фольги защищает от чтения мыслей", isTrue: false, argument: "Фольга не блокирует радиоволны." },
     { text: "Рикроллинг — это насильственное кормление роллами", isTrue: false, argument: "Это интернет-шутка с клипом Never Gonna Give You Up." },
@@ -89,7 +89,7 @@ const categoriesData = {
     { text: "Слоны думают, что люди милые, как мы про щенков", isTrue: true, argument: "При виде людей у слонов активируются зоны умиления." },
     { text: "Броненосцы всегда рождают четверых близнецов", isTrue: true, argument: "Из одной яйцеклетки развиваются четыре идентичных детёныша." },
     { text: "Черепахи могут дышать через попу", isTrue: true, argument: "Некоторые виды способны к клоакальному дыханию под водой." },
-{ text: "У жирафа столько же шейных позвонков, сколько у мыши", isTrue: true, argument: "Семь позвонков, как у почти всех млекопитающих." },
+    { text: "У жирафа столько же шейных позвонков, сколько у мыши", isTrue: true, argument: "Семь позвонков, как у почти всех млекопитающих." },
     { text: "Дельфины спят с одним открытым глазом", isTrue: true, argument: "Одно полушарие мозга отдыхает, другое бодрствует." },
     { text: "Белые медведи не заметны в инфракрасном свете", isTrue: true, argument: "Их шерсть очень хорошо изолирует тепло." },
     { text: "Хамелеоны меняют цвет, чтобы прятаться от хищников", isTrue: false, argument: "Основная причина — общение с сородичами и регуляция температуры." },
@@ -120,12 +120,12 @@ const categoriesData = {
     { text: "Персонаж Марио носит кепку, потому что у него нет времени рисовать волосы", isTrue: true, argument: "Так сказал Сигэру Миямото." },
     { text: "В GTA V есть миссия, где нужно доставить пиццу на Луну", isTrue: false, argument: "Такой миссии нет, но моды могут многое." },
     { text: "Создатель Minecraft Маркус Перссон изначально хотел стать шеф-поваром", isTrue: false, argument: "Он был программистом и гейм-дизайнером." },
-{ text: "Первый контроллер PlayStation был размером с велосипед", isTrue: false, argument: "Шутка! Контроллеры всегда были портативными." },
+    { text: "Первый контроллер PlayStation был размером с велосипед", isTrue: false, argument: "Шутка! Контроллеры всегда были портативными." },
     { text: "Соник изначально назывался Мистер Ёж", isTrue: true, argument: "Рабочее название персонажа — Mr. Needlemouse." },
     { text: "Первый компьютерный вирус назывался 'Здесь был Вася'", isTrue: false, argument: "Первый вирус — Creeper, создан в 1971 году." },
     { text: "В Skyrim можно жениться на вампире", isTrue: true, argument: "Серана — популярный выбор, хотя без модов брак с ней недоступен." },
     { text: "Культовая фраза 'Finish Him!' появилась раньше Mortal Kombat", isTrue: false, argument: "Именно MK популяризировала фразу." }
-  ],
+  ]
 };
 
 // ========== КОНФИГУРАЦИЯ КОЛЕСА ==========
@@ -166,13 +166,15 @@ function buildWheel() {
     segmentDiv.className = 'wheel-segment';
     const angle = ANGLE_PER_SEGMENT;
     const startAngle = i * angle;
-    segmentDiv.style.transform = rotate(${startAngle}deg) skewY(${90 - angle}deg);
+    // Исправлены кавычки:
+    segmentDiv.style.transform = `rotate(${startAngle}deg) skewY(${90 - angle}deg)`;
     segmentDiv.style.backgroundColor = seg.color;
 
     const label = document.createElement('span');
     label.className = 'segment-label';
     label.textContent = seg.label;
-    label.style.transform = skewY(${angle - 90}deg) rotate(${angle / 2}deg) translateY(-50%);
+    // Исправлены кавычки:
+    label.style.transform = `skewY(${angle - 90}deg) rotate(${angle / 2}deg) translateY(-50%)`;
     segmentDiv.appendChild(label);
 
     wheelEl.appendChild(segmentDiv);
@@ -191,6 +193,7 @@ function getRandomFactFromCategory(categoryName) {
 
 // ========== ОТОБРАЖЕНИЕ РЕЗУЛЬТАТА ==========
 function showReward(fact) {
+  // Исправлены кавычки в шаблонной строке:
   rewardBox.innerHTML = `
     <div class="reward-fact">${fact.text}</div>
     <div class="reward-controls">
@@ -203,7 +206,8 @@ function showReward(fact) {
     const answerDiv = document.getElementById('answerReveal');
     answerDiv.style.display = 'block';
     const verdict = fact.isTrue ? '✅ Правда' : '❌ Ложь';
-    answerDiv.innerHTML = <strong>${verdict}</strong><p>${fact.argument}</p>;
+    // Исправлены кавычки:
+    answerDiv.innerHTML = `<strong>${verdict}</strong><p>${fact.argument}</p>`;
   });
 }
 
@@ -219,7 +223,8 @@ function spinWheel() {
   const totalRotation = currentRotation + extraRotations + (360 - (currentRotation % 360)) + targetAngle;
 
   wheelEl.style.transition = 'transform 4s cubic-bezier(0.17, 0.67, 0.12, 0.99)';
-  wheelEl.style.transform = rotate(${totalRotation}deg);
+  // Исправлены кавычки:
+  wheelEl.style.transform = `rotate(${totalRotation}deg)`;
   currentRotation = totalRotation;
 
   setTimeout(() => {
@@ -229,14 +234,14 @@ function spinWheel() {
     const normalizedAngle = (currentRotation % 360);
     const winningIndex = Math.floor((360 - normalizedAngle + ANGLE_PER_SEGMENT / 2) % 360 / ANGLE_PER_SEGMENT) % SEGMENT_COUNT;
     const category = SEGMENTS[winningIndex].label;
-const fact = getRandomFactFromCategory(category);
+    const fact = getRandomFactFromCategory(category);
     showReward(fact);
   }, 4100);
 }
 
+// ========== ТЕМА (без ошибок, если кнопки нет) ==========
 (function() {
   const themeBtn = document.getElementById('themeBtn');
-  // Если кнопки нет (как на страницах викторины и колеса), просто выходим
   if (!themeBtn) return;
 
   const body = document.body;
