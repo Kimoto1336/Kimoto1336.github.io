@@ -180,9 +180,9 @@ function loadQuestions(mode) {
   const count = mode === 'millionaire' ? 15 : 10;
 
   if (mode === 'tricky') {
+    // Для "с подвохом" берём факты из Мемов, Истории и Науки (без 18+)
     const trickyPool = shuffle([
       ...categoriesData['Мемы'],
-      ...categoriesData['18+'],
       ...categoriesData['История'].filter(() => Math.random() > 0.5),
       ...categoriesData['Наука'].filter(() => Math.random() > 0.5)
     ]);
@@ -191,54 +191,35 @@ function loadQuestions(mode) {
       selectedFacts = selectedFacts.concat(shuffle(allFacts).slice(0, count - selectedFacts.length));
     }
   } else if (mode === 'millionaire') {
-    // Для миллионера: 15 вопросов, каждый с 4 вариантами-фактами
     selectedFacts = shuffle(allFacts).slice(0, count);
   } else {
     selectedFacts = shuffle(allFacts).slice(0, count);
   }
 
-  // Пулы фактов по истинности для генерации неправильных вариантов
   const trueFacts = allFacts.filter(f => f.isTrue);
   const falseFacts = allFacts.filter(f => !f.isTrue);
 
   questions = selectedFacts.map(fact => {
     if (mode === 'millionaire') {
-      // Определяем, что мы ищем: правду или ложь
       const lookingForTrue = fact.isTrue;
       const questionText = lookingForTrue
         ? 'Какой из этих фактов является правдой?'
         : 'Какой из этих фактов является ложью?';
-
-      // Правильный ответ — сам факт
       const correctAnswer = fact.text;
-
-      // Подбираем три неправильных варианта с противоположным значением
       const oppositePool = lookingForTrue ? falseFacts : trueFacts;
-      // Исключаем сам факт (он в любом случае не попадёт, т.к. у него другой статус)
       const wrongCandidates = shuffle([...oppositePool]).slice(0, 3);
-
-      // Если не хватило (маловероятно), добавим факты с тем же статусом, но это нарушит логику.
-      // Надёжнее дополнить фиктивными утверждениями, но оставим так – в реальности хватит.
       while (wrongCandidates.length < 3) {
-        // Берём случайный факт из всех, но с фильтром, чтобы не совпадал с правильным
         const extra = shuffle(allFacts).find(f => f.text !== correctAnswer && !wrongCandidates.some(w => w.text === f.text));
         if (extra) wrongCandidates.push(extra);
-        else break; // совсем крайний случай
+        else break;
       }
-
       const wrongTexts = wrongCandidates.map(f => f.text);
       const options = shuffle([correctAnswer, ...wrongTexts]);
-
-      return {
-        questionText,
-        correctAnswer,
-        options
-      };
+      return { questionText, correctAnswer, options };
     } else {
-      // Обычный режим и с подвохом: две кнопки «Правда»/«Ложь»
       const correctAnswer = fact.isTrue ? 'Правда' : 'Ложь';
       return {
-        questionText: fact.text,   // для этих режимов вопрос = сам факт
+        questionText: fact.text,
         correctAnswer,
         options: ['Правда', 'Ложь']
       };
@@ -253,18 +234,13 @@ function renderQuestion() {
     return;
   }
   const q = questions[currentIndex];
-
-  // Устанавливаем текст вопроса
   quizQuestion.textContent = q.questionText;
-
-  // Информационная строка (прогресс и очки)
   quizInfo.innerHTML = `Вопрос ${currentIndex + 1} / ${questions.length} | Очки: ${score}`;
 
   quizAnswers.innerHTML = '';
   answered = false;
   nextBtn.style.display = 'none';
 
-  // Создаём кнопки вариантов
   q.options.forEach(opt => {
     const btn = document.createElement('button');
     btn.className = 'action-btn';
@@ -273,7 +249,6 @@ function renderQuestion() {
     quizAnswers.appendChild(btn);
   });
 
-  // Таймер только для режима "На время"
   if (currentMode === 'timed') {
     startTimer();
   }
@@ -291,7 +266,6 @@ function handleAnswer(selected, btnElement) {
   const q = questions[currentIndex];
   const isCorrect = (selected === q.correctAnswer);
 
-  // Подсвечиваем все кнопки: правильную зелёным, неправильную (если нажата) красным
   document.querySelectorAll('#quizAnswers .action-btn').forEach(btn => {
     btn.disabled = true;
     if (btn.textContent === q.correctAnswer) {
@@ -314,7 +288,7 @@ function handleAnswer(selected, btnElement) {
   nextBtn.textContent = (currentIndex < questions.length - 1) ? 'Далее' : 'Закончить викторину';
 }
 
-// ========== ТАЙМЕР ДЛЯ РЕЖИМА "НА ВРЕМЯ" ==========
+// ========== ТАЙМЕР (только для "На время") ==========
 function startTimer() {
   timeLeft = 15;
   updateTimerDisplay();
@@ -328,7 +302,6 @@ function startTimer() {
         showToast(`⏰ Время вышло! Ответ: ${correct}`, false);
         answered = true;
         document.querySelectorAll('#quizAnswers .action-btn').forEach(b => b.disabled = true);
-        // Подсветка правильного ответа
         document.querySelectorAll('#quizAnswers .action-btn').forEach(btn => {
           if (btn.textContent === correct) btn.classList.add('correct-flash');
         });
@@ -407,24 +380,28 @@ quizModeBtns.forEach(btn => {
   });
 });
 
-const themeBtn = document.getElementById('themeBtn');
-const body = document.body;
+(function() {
+  const themeBtn = document.getElementById('themeBtn');
+  // Если кнопки нет (как на страницах викторины и колеса), просто выходим
+  if (!themeBtn) return;
 
-const savedTheme = localStorage.getItem('theme');
-if (savedTheme === 'dark') {
-  body.classList.add('dark-theme');
-  themeBtn.textContent = '☀️';
-} else {
-  body.classList.remove('dark-theme');
-  themeBtn.textContent = '🌙';
-}
+  const body = document.body;
+  const savedTheme = localStorage.getItem('theme');
+  if (savedTheme === 'dark') {
+    body.classList.add('dark-theme');
+    themeBtn.textContent = '☀️';
+  } else {
+    body.classList.remove('dark-theme');
+    themeBtn.textContent = '🌙';
+  }
 
-themeBtn.addEventListener('click', () => {
-  body.classList.toggle('dark-theme');
-  const isDark = body.classList.contains('dark-theme');
-  themeBtn.textContent = isDark ? '☀️' : '🌙';
-  localStorage.setItem('theme', isDark ? 'dark' : 'light');
-});
+  themeBtn.addEventListener('click', () => {
+    body.classList.toggle('dark-theme');
+    const isDark = body.classList.contains('dark-theme');
+    themeBtn.textContent = isDark ? '☀️' : '🌙';
+    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+  });
+})();
 
 // ========== ИНИЦИАЛИЗАЦИЯ ==========
 resetToModeSelection();
