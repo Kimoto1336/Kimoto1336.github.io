@@ -371,6 +371,15 @@ function resetToModeSelection() {
 }
 
 // ========== ОБРАБОТЧИКИ КНОПОК РЕЖИМОВ ==========
+quizModeBtns.forEach(btn => {
+  btn.addEventListener('click', function() {
+    quizModeBtns.forEach(b => b.classList.remove('active'));
+    this.classList.add('active');
+    const mode = this.dataset.mode;
+    startQuiz(mode);
+  });
+});
+
 (function() {
   const body = document.body;
   const themeBtn = document.getElementById('themeBtn');
