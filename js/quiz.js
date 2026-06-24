@@ -253,7 +253,7 @@ function startTimer() {
     }
   }, 1000);
 }
-[24.06.2026 18:28] Никита Пестов: function updateTimerDisplay() {
+ function updateTimerDisplay() {
   const existingTimer = document.getElementById('timerDisplay');
   if (existingTimer) existingTimer.remove();
   const timerDiv = document.createElement('div');
