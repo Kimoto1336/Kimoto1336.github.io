@@ -42,7 +42,7 @@ const categoriesData = {
     { text: "В Minecraft криперы — ошибка кода", isTrue: true, argument: "Нотч перепутал параметры свиньи." },
     { text: "Пакман создан под влиянием пиццы без одного куска", isTrue: true, argument: "Дизайнер вдохновился надкушенной пиццей." }
   ],
-"18+": [
+  "18+": [
     { text: "Презервативы в СССР называли «резиновое изделие №2»", isTrue: true, argument: "Изделие №2, №1 — противогаз." },
     { text: "Алкоголь улучшает потенцию", isTrue: false, argument: "В целом угнетает половую функцию." },
     { text: "Виагра была изобретена случайно", isTrue: true, argument: "Изначально для сердца." },
@@ -73,8 +73,12 @@ function showToast(message, isCorrect) {
   toast.textContent = message;
   toast.className = 'toast-hidden';
   toast.classList.add(isCorrect ? 'is-correct' : 'is-wrong');
-  requestAnimationFrame(() => toast.classList.add('show-toast'));
-  setTimeout(() => toast.classList.remove('show-toast'), 1500);
+  requestAnimationFrame(() => {
+    toast.classList.add('show-true'); // можно добавить для анимации, но основное видно через opacity
+  });
+  setTimeout(() => {
+    toast.classList.remove('is-correct', 'is-wrong', 'show-true');
+  }, 1500);
 }
 
 function getAllFacts() {
@@ -117,7 +121,7 @@ function generateOptions(correctFact, allFacts) {
   return shuffle(options);
 }
 
-// ========== ЗАГРУЗКА ВОПРОСОВ ДЛЯ РЕЖИМА ==========
+// ========== ЗАГРУЗКА ВОПРОСОВ ==========
 function loadQuestions(mode) {
   const allFacts = getAllFacts();
   let selectedFacts = [];
@@ -162,8 +166,9 @@ function renderQuestion() {
   }
   const q = questions[currentIndex];
   quizQuestion.textContent = q.fact.text;
-  quizInfo.innerHTML = Вопрос ${currentIndex + 1} / ${questions.length} | Очки: ${score};
-quizAnswers.innerHTML = '';
+  quizInfo.innerHTML = `Вопрос ${currentIndex + 1} / ${questions.length} | Очки: ${score}`;
+
+  quizAnswers.innerHTML = '';
   answered = false;
   nextBtn.style.display = 'none';
 
@@ -203,18 +208,18 @@ function handleAnswer(selected, btnElement) {
 
   if (isCorrect) {
     score++;
-    quizInfo.innerHTML = Вопрос ${currentIndex + 1} / ${questions.length} | Очки: ${score} | ✅ Правильно!;
+    quizInfo.innerHTML = `Вопрос ${currentIndex + 1} / ${questions.length} | Очки: ${score} | ✅ Правильно!`;
     showToast('✅ Верно!', true);
   } else {
-    quizInfo.innerHTML = Вопрос ${currentIndex + 1} / ${questions.length} | Очки: ${score} | ❌ Неверно. Правильный ответ: ${q.correctAnswer};
-    showToast(❌ Неверно! Правильный ответ: ${q.correctAnswer}, false);
+    quizInfo.innerHTML = `Вопрос ${currentIndex + 1} / ${questions.length} | Очки: ${score} | ❌ Неверно. Правильный ответ: ${q.correctAnswer}`;
+    showToast(`❌ Неверно! Правильный ответ: ${q.correctAnswer}`, false);
   }
 
   nextBtn.style.display = 'inline-block';
   nextBtn.textContent = (currentIndex < questions.length - 1) ? 'Далее' : 'Закончить викторину';
 }
 
-// ========== ТАЙМЕР ДЛЯ РЕЖИМА "НА ВРЕМЯ" ==========
+// ========== ТАЙМЕР ==========
 function startTimer() {
   timeLeft = 15;
   updateTimerDisplay();
@@ -225,7 +230,7 @@ function startTimer() {
       clearInterval(timer);
       if (!answered) {
         const correct = questions[currentIndex].correctAnswer;
-        showToast(⏰ Время вышло! Ответ: ${correct}, false);
+        showToast(`⏰ Время вышло! Ответ: ${correct}`, false);
         answered = true;
         document.querySelectorAll('#quizAnswers .action-btn').forEach(b => b.disabled = true);
         nextBtn.style.display = 'inline-block';
@@ -240,7 +245,7 @@ function updateTimerDisplay() {
   if (existingTimer) existingTimer.remove();
   const timerDiv = document.createElement('div');
   timerDiv.id = 'timerDisplay';
-  timerDiv.textContent = ⏳ ${timeLeft} сек;
+  timerDiv.textContent = `⏳ ${timeLeft} сек`;
   timerDiv.style.fontWeight = 'bold';
   timerDiv.style.marginTop = '10px';
   quizAnswers.parentNode.insertBefore(timerDiv, nextBtn);
@@ -262,7 +267,7 @@ function endQuiz() {
   quizQuestion.textContent = 'Викторина завершена!';
   quizAnswers.innerHTML = '';
   nextBtn.style.display = 'none';
-  quizInfo.innerHTML = Ваш счёт: ${score} / ${questions.length};
+  quizInfo.innerHTML = `Ваш счёт: ${score} / ${questions.length}`;
   quizResult.style.display = 'block';
   quizResult.innerHTML = `
     <p>Вы ответили правильно на ${score} из ${questions.length} вопросов.</p>
@@ -285,6 +290,7 @@ function startQuiz(mode) {
   quizResult.style.display = 'none';
   renderQuestion();
 }
+
 // ========== ВОЗВРАТ К ВЫБОРУ РЕЖИМА ==========
 function resetToModeSelection() {
   document.getElementById('quizModeSelector').style.display = 'flex';
