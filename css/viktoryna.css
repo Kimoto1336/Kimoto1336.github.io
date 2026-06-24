@@ -5,7 +5,25 @@
   gap: 20px;
   margin-top: 20px;
 }
-
+    .theme-btn {
+      background: transparent;
+      border: 1.5px solid var(--accent-rose);
+      border-radius: 5px;
+      width: 44px;
+      height: 44px;
+      font-size: 20px;
+      cursor: pointer;
+      color: var(--text-body);
+      transition: background 0.25s, border-color 0.25s, transform 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .theme-btn:hover {
+      background: rgba(181, 122, 140, 0.15);
+      border-color: var(--accent-gold);
+      transform: scale(1.05);
+    }
 .category-grid .category-btn {
   display: flex;
   flex-direction: column;
