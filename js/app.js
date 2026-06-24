@@ -932,32 +932,61 @@ window.addEventListener('click', (e) => {
     hintModal.style.display = 'none';
   }
 });
-
-// Категории
 // Категории
 categoryBtns.forEach(btn => {
   btn.addEventListener('click', function() {
     const categoryName = this.textContent.trim();
 
-    // Если выбрана категория 18+ и возраст ещё не подтверждён
+    // Если выбрана категория 18+ и возраст ещё не подтверждён — показываем своё модальное окно
     if (categoryName === '18+' && !ageConfirmed) {
-      const isAdult = confirm('Вам есть 18 лет?');
-      if (!isAdult) {
-        showToast('🔞 Доступ к категории 18+ только для взрослых!', false);
-        return; 
-      }
-      ageConfirmed = true;
+      ageModal.style.display = 'flex';
+      return; // прерываем выполнение, ждём решения пользователя
     }
-    categoryBtns.forEach(b => b.classList.remove('active'));
-    this.classList.add('active');
 
-    if (categoriesData[categoryName]) {
-      currentCategory = categoryName;
-    } else {
-      currentCategory = 'all';
-    }
-    changeFact();
+    // Иначе просто переключаем категорию
+    switchCategory(categoryName);
   });
+});
+
+// Функция переключения категории (вынесена, чтобы не дублировать код)
+function switchCategory(categoryName) {
+  categoryBtns.forEach(b => b.classList.remove('active'));
+  // Находим кнопку с нужным текстом и делаем её активной
+  categoryBtns.forEach(b => {
+    if (b.textContent.trim() === categoryName) {
+      b.classList.add('active');
+    }
+  });
+
+  if (categoriesData[categoryName]) {
+    currentCategory = categoryName;
+  } else {
+    currentCategory = 'all';
+  }
+  changeFact();
+}
+
+// Обработчики для модального окна возраста
+ageYes.addEventListener('click', () => {
+  ageConfirmed = true;
+  ageModal.style.display = 'none';
+  switchCategory('18+');
+});
+
+ageNo.addEventListener('click', () => {
+  ageModal.style.display = 'none';
+  showToast('🔞 Доступ к категории 18+ только для взрослых!', false);
+});
+
+ageClose.addEventListener('click', () => {
+  ageModal.style.display = 'none';
+});
+
+// Закрытие по клику вне окна (для ageModal)
+window.addEventListener('click', (e) => {
+  if (e.target === ageModal) {
+    ageModal.style.display = 'none';
+  }
 });
 
 // =================== ЗАПУСК ===================
