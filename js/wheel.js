@@ -72,11 +72,11 @@ const rewardBox = document.getElementById('reward');
 
 // ========== СОСТОЯНИЕ ==========
 let spinning = false;
-let currentRotation = 0; // накопленный угол поворота
+let currentRotation = 0;
 
 // ========== ПОСТРОЕНИЕ КОЛЕСА ==========
 function buildWheel() {
-  wheelEl.innerHTML = ''; // очищаем всё, кроме центра
+  wheelEl.innerHTML = '';
   const center = document.createElement('div');
   center.className = 'wheel-center';
   center.textContent = 'ИБЧ';
@@ -88,15 +88,12 @@ function buildWheel() {
     segmentDiv.className = 'wheel-segment';
     const angle = ANGLE_PER_SEGMENT;
     const startAngle = i * angle;
-    // Вычисляем поворот и skew для конического сектора
     segmentDiv.style.transform = rotate(${startAngle}deg) skewY(${90 - angle}deg);
     segmentDiv.style.backgroundColor = seg.color;
 
-    // Добавляем текстовую метку
     const label = document.createElement('span');
     label.className = 'segment-label';
     label.textContent = seg.label;
-    // Располагаем метку по центру сектора
     label.style.transform = skewY(${angle - 90}deg) rotate(${angle / 2}deg) translateY(-50%);
     segmentDiv.appendChild(label);
 
@@ -108,7 +105,6 @@ function buildWheel() {
 function getRandomFactFromCategory(categoryName) {
   const facts = categoriesData[categoryName];
   if (!facts) {
-    // fallback – любой случайный факт из всех категорий
     const all = Object.values(categoriesData).flat();
     return all[Math.floor(Math.random() * all.length)];
   }
@@ -138,31 +134,26 @@ function spinWheel() {
   if (spinning) return;
   spinning = true;
   spinBtn.disabled = true;
-// Случайный дополнительный угол (несколько полных оборотов + случайный сектор)
-  const extraRotations = 360 * (Math.floor(Math.random() * 5) + 5); // 5-10 оборотов
+
+  const extraRotations = 360 * (Math.floor(Math.random() * 5) + 5);
   const randomSegmentIndex = Math.floor(Math.random() * SEGMENT_COUNT);
-  // Вычисляем угол так, чтобы стрелка указывала на середину выбранного сектора
   const targetAngle = randomSegmentIndex * ANGLE_PER_SEGMENT + ANGLE_PER_SEGMENT / 2;
   const totalRotation = currentRotation + extraRotations + (360 - (currentRotation % 360)) + targetAngle;
-  
-  // Применяем вращение
+
   wheelEl.style.transition = 'transform 4s cubic-bezier(0.17, 0.67, 0.12, 0.99)';
   wheelEl.style.transform = rotate(${totalRotation}deg);
   currentRotation = totalRotation;
 
-  // После остановки
   setTimeout(() => {
     spinning = false;
     spinBtn.disabled = false;
 
-    // Определяем выпавший сектор
     const normalizedAngle = (currentRotation % 360);
     const winningIndex = Math.floor((360 - normalizedAngle + ANGLE_PER_SEGMENT / 2) % 360 / ANGLE_PER_SEGMENT) % SEGMENT_COUNT;
     const category = SEGMENTS[winningIndex].label;
-    
-    const fact = getRandomFactFromCategory(category);
+const fact = getRandomFactFromCategory(category);
     showReward(fact);
-  }, 4100); // чуть больше времени анимации
+  }, 4100);
 }
 
 // ========== ИНИЦИАЛИЗАЦИЯ ==========
