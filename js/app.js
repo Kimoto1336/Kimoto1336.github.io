@@ -5,7 +5,10 @@ const factCard = document.getElementById('factCard');
 const randomBtn = document.getElementById('randomFactBtn');
 const toast = document.getElementById('resultToast');
 const actionBtns = document.querySelectorAll('.action-btn');
-
+const ageModal = document.getElementById('ageModal');
+const ageClose = document.getElementById('ageClose');
+const ageYes = document.getElementById('ageYes');
+const ageNo = document.getElementById('ageNo');
 // База данных фактов (для демонстрации анимаций)
 const factsDB = [
     "Бананы — это ягоды",
@@ -26,7 +29,7 @@ function changeFact() {
     setTimeout(() => {
         const randomIndex = Math.floor(Math.random() * factsDB.length);
         factTitle.textContent = factsDB[randomIndex].toUpperCase();
-        
+
         // Включаем анимацию появления
         factCard.classList.remove('fade-out');
         factCard.classList.add('fade-in');
@@ -42,7 +45,7 @@ if (randomBtn) {
 function showToast(message, isCorrect) {
     toast.textContent = message;
     toast.className = 'toast-hidden'; // Сброс классов
-    
+
     if (isCorrect) {
         toast.classList.add('is-correct');
     } else {
@@ -62,12 +65,12 @@ function showToast(message, isCorrect) {
 
 // Обработчики кнопок ПРАВДА / ЛОЖЬ
 actionBtns.forEach(btn => {
-    btn.addEventListener('click', function(e) {
+    btn.addEventListener('click', function (e) {
         const answer = this.dataset.answer; // 'true' или 'false'
-        
+
         // В реальном приложении здесь должна быть логика сравнения с правильным ответом
         // Для демонстрации сымитируем, что правильный ответ всегда "true"
-        const isRight = (answer === 'true'); 
+        const isRight = (answer === 'true');
         const buttonText = this.textContent.trim();
 
         if (isRight) {
