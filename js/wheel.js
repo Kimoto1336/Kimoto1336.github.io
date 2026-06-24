@@ -135,7 +135,6 @@ const SEGMENTS = [
   { label: "Мемы", color: "#3357FF" },
   { label: "Животные", color: "#FF33F6" },
   { label: "Игры", color: "#F6FF33" },
-  { label: "18+", color: "#FF3333" },
   { label: "Наука", color: "#33FFF6" },
   { label: "Мемы", color: "#F633FF" }
 ];
@@ -143,12 +142,10 @@ const SEGMENTS = [
 const SEGMENT_COUNT = SEGMENTS.length;
 const ANGLE_PER_SEGMENT = 360 / SEGMENT_COUNT;
 
-// ========== DOM-ЭЛЕМЕНТЫ ==========
 const wheelEl = document.getElementById('wheel');
 const spinBtn = document.getElementById('spinBtn');
 const rewardBox = document.getElementById('reward');
 
-// ========== СОСТОЯНИЕ ==========
 let spinning = false;
 let currentRotation = 0;
 
@@ -166,14 +163,12 @@ function buildWheel() {
     segmentDiv.className = 'wheel-segment';
     const angle = ANGLE_PER_SEGMENT;
     const startAngle = i * angle;
-    // Исправлены кавычки:
     segmentDiv.style.transform = `rotate(${startAngle}deg) skewY(${90 - angle}deg)`;
     segmentDiv.style.backgroundColor = seg.color;
 
     const label = document.createElement('span');
     label.className = 'segment-label';
     label.textContent = seg.label;
-    // Исправлены кавычки:
     label.style.transform = `skewY(${angle - 90}deg) rotate(${angle / 2}deg) translateY(-50%)`;
     segmentDiv.appendChild(label);
 
@@ -181,7 +176,6 @@ function buildWheel() {
   }
 }
 
-// ========== СЛУЧАЙНЫЙ ФАКТ ИЗ КАТЕГОРИИ ==========
 function getRandomFactFromCategory(categoryName) {
   const facts = categoriesData[categoryName];
   if (!facts) {
@@ -191,9 +185,7 @@ function getRandomFactFromCategory(categoryName) {
   return facts[Math.floor(Math.random() * facts.length)];
 }
 
-// ========== ОТОБРАЖЕНИЕ РЕЗУЛЬТАТА ==========
 function showReward(fact) {
-  // Исправлены кавычки в шаблонной строке:
   rewardBox.innerHTML = `
     <div class="reward-fact">${fact.text}</div>
     <div class="reward-controls">
@@ -206,12 +198,11 @@ function showReward(fact) {
     const answerDiv = document.getElementById('answerReveal');
     answerDiv.style.display = 'block';
     const verdict = fact.isTrue ? '✅ Правда' : '❌ Ложь';
-    // Исправлены кавычки:
     answerDiv.innerHTML = `<strong>${verdict}</strong><p>${fact.argument}</p>`;
   });
 }
 
-// ========== ВРАЩЕНИЕ КОЛЕСА ==========
+// ========== ВРАЩЕНИЕ (исправленная функция) ==========
 function spinWheel() {
   if (spinning) return;
   spinning = true;
@@ -223,7 +214,6 @@ function spinWheel() {
   const totalRotation = currentRotation + extraRotations + (360 - (currentRotation % 360)) + targetAngle;
 
   wheelEl.style.transition = 'transform 4s cubic-bezier(0.17, 0.67, 0.12, 0.99)';
-  // Исправлены кавычки:
   wheelEl.style.transform = `rotate(${totalRotation}deg)`;
   currentRotation = totalRotation;
 
@@ -231,21 +221,18 @@ function spinWheel() {
     spinning = false;
     spinBtn.disabled = false;
 
-    const normalizedAngle = (currentRotation % 360);
-    const winningIndex = Math.floor((360 - normalizedAngle + ANGLE_PER_SEGMENT / 2) % 360 / ANGLE_PER_SEGMENT) % SEGMENT_COUNT;
+    const normalizedAngle = ((currentRotation % 360) + 360) % 360;
+    const winningIndex = Math.floor((360 - normalizedAngle) / ANGLE_PER_SEGMENT) % SEGMENT_COUNT;
     const category = SEGMENTS[winningIndex].label;
     const fact = getRandomFactFromCategory(category);
     showReward(fact);
   }, 4100);
 }
 
-// ========== ТЕМА (без ошибок, если кнопки нет) ==========
-// ========== ТЕМА (работает на любой странице) ==========
+// ========== ТЕМА ==========
 (function() {
   const body = document.body;
   const themeBtn = document.getElementById('themeBtn');
-
-  // Восстановление темы при загрузке (работает всегда)
   const savedTheme = localStorage.getItem('theme');
   if (savedTheme === 'dark') {
     body.classList.add('dark-theme');
@@ -254,8 +241,6 @@ function spinWheel() {
     body.classList.remove('dark-theme');
     if (themeBtn) themeBtn.textContent = '🌙';
   }
-
-  // Переключение темы (только если есть кнопка)
   if (themeBtn) {
     themeBtn.addEventListener('click', () => {
       body.classList.toggle('dark-theme');
