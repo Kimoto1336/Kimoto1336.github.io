@@ -151,29 +151,41 @@ let currentRotation = 0;
 
 // ========== ПОСТРОЕНИЕ КОЛЕСА ==========
 function buildWheel() {
+  // Очищаем колесо
   wheelEl.innerHTML = '';
+
   const center = document.createElement('div');
   center.className = 'wheel-center';
   center.textContent = 'ИБЧ';
   wheelEl.appendChild(center);
 
-  for (let i = 0; i < SEGMENT_COUNT; i++) {
-    const seg = SEGMENTS[i];
-    const segmentDiv = document.createElement('div');
-    segmentDiv.className = 'wheel-segment';
-    const angle = ANGLE_PER_SEGMENT;
-    const startAngle = i * angle;
-    segmentDiv.style.transform = `rotate(${startAngle}deg) skewY(${90 - angle}deg)`;
-    segmentDiv.style.backgroundColor = seg.color;
+  const gradientParts = SEGMENTS.map((seg, i) => {
+    const startAngle = (i * 360) / SEGMENT_COUNT;
+    const endAngle = ((i + 1) * 360) / SEGMENT_COUNT;
+    return `${seg.color} ${startAngle}deg ${endAngle}deg`;
+  });
+  wheelEl.style.background = `conic-gradient(${gradientParts.join(', ')})`;
 
+  SEGMENTS.forEach((seg, i) => {
     const label = document.createElement('span');
     label.className = 'segment-label';
     label.textContent = seg.label;
-    label.style.transform = `skewY(${angle - 90}deg) rotate(${angle / 2}deg) translateY(-50%)`;
-    segmentDiv.appendChild(label);
-
-    wheelEl.appendChild(segmentDiv);
-  }
+    const midAngle = (i * 360) / SEGMENT_COUNT + 180 / SEGMENT_COUNT;
+    const radians = (midAngle - 90) * (Math.PI / 180);
+    const radius = 40; // в процентах от центра
+    const x = 50 + radius * Math.cos(radians);
+    const y = 50 + radius * Math.sin(radians);
+    label.style.position = 'absolute';
+    label.style.left = x + '%';
+    label.style.top = y + '%';
+    label.style.transform = `translate(-50%, -50%) rotate(${midAngle}deg)`;
+    label.style.color = 'white';
+    label.style.fontWeight = 'bold';
+    label.style.fontSize = '14px';
+    label.style.textShadow = '1px 1px 2px black';
+    label.style.pointerEvents = 'none'; // чтобы не перехватывали клик
+    wheelEl.appendChild(label);
+  });
 }
 
 function getRandomFactFromCategory(categoryName) {
