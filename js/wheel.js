@@ -234,6 +234,29 @@ const fact = getRandomFactFromCategory(category);
   }, 4100);
 }
 
+(function() {
+  const themeBtn = document.getElementById('themeBtn');
+  // Если кнопки нет (как на страницах викторины и колеса), просто выходим
+  if (!themeBtn) return;
+
+  const body = document.body;
+  const savedTheme = localStorage.getItem('theme');
+  if (savedTheme === 'dark') {
+    body.classList.add('dark-theme');
+    themeBtn.textContent = '☀️';
+  } else {
+    body.classList.remove('dark-theme');
+    themeBtn.textContent = '🌙';
+  }
+
+  themeBtn.addEventListener('click', () => {
+    body.classList.toggle('dark-theme');
+    const isDark = body.classList.contains('dark-theme');
+    themeBtn.textContent = isDark ? '☀️' : '🌙';
+    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+  });
+})();
+
 // ========== ИНИЦИАЛИЗАЦИЯ ==========
 buildWheel();
 spinBtn.addEventListener('click', spinWheel);
