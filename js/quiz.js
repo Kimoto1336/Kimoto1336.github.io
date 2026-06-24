@@ -329,5 +329,24 @@ quizModeBtns.forEach(btn => {
   });
 });
 
+const themeBtn = document.getElementById('themeBtn');
+const body = document.body;
+
+const savedTheme = localStorage.getItem('theme');
+if (savedTheme === 'dark') {
+  body.classList.add('dark-theme');
+  themeBtn.textContent = '☀️';
+} else {
+  body.classList.remove('dark-theme');
+  themeBtn.textContent = '🌙';
+}
+
+themeBtn.addEventListener('click', () => {
+  body.classList.toggle('dark-theme');
+  const isDark = body.classList.contains('dark-theme');
+  themeBtn.textContent = isDark ? '☀️' : '🌙';
+  localStorage.setItem('theme', isDark ? 'dark' : 'light');
+});
+
 // ========== ИНИЦИАЛИЗАЦИЯ ==========
 resetToModeSelection();
