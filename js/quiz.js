@@ -1,146 +1,325 @@
-async function loadFacts(){
+[24.06.2026 18:28] Никита Пестов: // ========== БАЗА ФАКТОВ (такая же, как на главной) ==========
+const categoriesData = {
+  "Наука": [
+    { text: "Вода проводит электричество", isTrue: false, argument: "Чистая вода — диэлектрик. Ток проводят растворённые в ней соли и примеси." },
+    { text: "Стекло — это жидкость", isTrue: false, argument: "Стекло — аморфное твёрдое тело, а не жидкость." },
+    { text: "Солнце — звезда среднего размера", isTrue: true, argument: "Солнце относится к классу жёлтых карликов." },
+    { text: "Земля плоская", isTrue: false, argument: "Форма Земли — геоид, близка к шару." },
+    { text: "Кислород — самый распространённый элемент в земной коре", isTrue: true, argument: "Кислород составляет около 46% массы земной коры." },
+    { text: "Радуга имеет 7 цветов", isTrue: true, argument: "Традиционно выделяют 7 цветов, хотя спектр непрерывен." },
+    { text: "Звук в космосе не распространяется", isTrue: true, argument: "В вакууме нет среды для передачи звуковых волн." },
+    { text: "Горячая вода замерзает быстрее холодной", isTrue: true, argument: "Эффект Мпембы." },
+    { text: "Человек использует только 10% мозга", isTrue: false, argument: "Нейровизуализация показывает активность почти всех участков." },
+    { text: "Луна сделана из сыра", isTrue: false, argument: "Это шутка, Луна из горных пород." }
+    // Добавьте остальные факты из вашего основного app.js (я для краткости привел часть)
+    // Полную базу скопируйте из app.js
+  ],
+  "История": [
+    { text: "Клеопатра жила ближе к открытию пиццы, чем к постройке пирамид", isTrue: true, argument: "Пирамида Хеопса ~2560 г. до н.э., пицца маргарита 1889 г." },
+    { text: "Викинги носили рогатые шлемы", isTrue: false, argument: "Археологических подтверждений нет." },
+    { text: "Наполеон был низкого роста", isTrue: false, argument: "Его рост 168 см — выше среднего француза того времени." },
+    { text: "Великая Китайская стена видна из космоса", isTrue: false, argument: "Слишком тонкая, не видна невооружённым глазом." },
+    { text: "Петр I запретил носить бороды под страхом штрафа", isTrue: true, argument: "В 1698 году ввёл налог на бороды." },
+    { text: "Пираты носили повязку на глаз, чтобы видеть в темноте", isTrue: true, argument: "Глаз быстрее адаптировался к слабому освещению в трюме." }
+  ],
+  "Мемы": [
+    { text: "Кот-барабанщик — вымерший вид", isTrue: false, argument: "Интернет-мем, не связанный с реальностью." },
+    { text: "«Это Спарта!» — историческая фраза", isTrue: false, argument: "Из фильма '300 спартанцев'." },
+    { text: "Шапочка из фольги защищает от чтения мыслей", isTrue: false, argument: "Фольга не блокирует радиоволны." },
+    { text: "Рикроллинг — это насильственное кормление роллами", isTrue: false, argument: "Интернет-шутка с клипом Never Gonna Give You Up." },
+    { text: "Мем «Доге» основан на реальной собаке Кабосу", isTrue: true, argument: "Сиба-ину Кабосу — звезда интернета с 2010 года." }
+  ],
+  "Животные": [
+    { text: "У слонов 4 колена", isTrue: false, argument: "У слонов два колена и два локтя." },
+    { text: "Кошки мяукают только людям", isTrue: true, argument: "Взрослые кошки редко мяукают друг другу." },
+    { text: "Страусы прячут голову в песок от страха", isTrue: false, argument: "Они наклоняются, чтобы проверить гнездо." },
+    { text: "Верблюды хранят воду в горбах", isTrue: false, argument: "В горбах — жировые запасы." },
+    { text: "Выдры держатся за лапки, чтобы не потеряться во сне", isTrue: true, argument: "Мило и правда." },
+    { text: "Ленивцы могут умереть от голода с полным желудком", isTrue: true, argument: "При холоде бактерии в животе перестают работать." }
+  ],
+  "Игры": [
+    { text: "Марио — сантехник", isTrue: true, argument: "Официальная профессия Марио." },
+    { text: "В игре Тетрис можно выиграть", isTrue: false, argument: "Классический Тетрис бесконечен." },
+    { text: "Sonic the Hedgehog изначально был кроликом", isTrue: true, argument: "Дизайнеры сначала придумали кролика." },
+    { text: "В Minecraft криперы — ошибка кода", isTrue: true, argument: "Нотч перепутал параметры свиньи." },
+[24.06.2026 18:28] Никита Пестов: { text: "Пакман создан под влиянием пиццы без одного куска", isTrue: true, argument: "Дизайнер вдохновился надкушенной пиццей." }
+  ],
+  "18+": [
+    { text: "Презервативы в СССР называли «резиновое изделие №2»", isTrue: true, argument: "Изделие №2, №1 — противогаз." },
+    { text: "Алкоголь улучшает потенцию", isTrue: false, argument: "В целом угнетает половую функцию." },
+    { text: "Виагра была изобретена случайно", isTrue: true, argument: "Изначально для сердца." },
+    { text: "Пиво увеличивает грудь у мужчин", isTrue: true, argument: "Хмель содержит фитоэстрогены." }
+  ]
+};
 
-  const response =
-    await fetch("/api/facts");
+// ========== DOM-элементы ==========
+const quizModeBtns = document.querySelectorAll('#quizModeSelector .category-btn');
+const quizQuestion = document.getElementById('quizQuestion');
+const quizAnswers = document.getElementById('quizAnswers');
+const quizInfo = document.getElementById('quizInfo');
+const nextBtn = document.getElementById('nextQuestionBtn');
+const quizResult = document.getElementById('quizResult');
+const toast = document.getElementById('resultToast');
 
-  questions =
-    await response.json();
-
-  loadQuestion();
-}
-
-loadFacts();
-
-let currentQuestion = null;
+// ========== ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ ==========
+let currentMode = 'millionaire'; // millionaire / timed / tricky
+let questions = [];              // массив объектов вопроса
+let currentIndex = 0;
 let score = 0;
+let timer = null;
+let timeLeft = 0;
 let answered = false;
 
-const questionElement =
-document.getElementById("question");
-
-const resultElement =
-document.getElementById("result");
-
-const explanationElement =
-document.getElementById("explanation");
-
-const trueBtn =
-document.getElementById("trueBtn");
-
-const falseBtn =
-document.getElementById("falseBtn");
-
-function loadQuestion() {
-
-answered = false;
-
-const randomIndex =
-Math.floor(
-Math.random() * questions.length
-);
-
-currentQuestion =
-questions[randomIndex];
-
-questionElement.textContent =
-currentQuestion.text;
-
-resultElement.innerHTML = "";
-
-explanationElement.innerHTML = "";
-
-trueBtn.disabled = false;
-falseBtn.disabled = false;
+// ========== ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ ==========
+function showToast(message, isCorrect) {
+  toast.textContent = message;
+  toast.className = 'toast-hidden';
+  toast.classList.add(isCorrect ? 'is-correct' : 'is-wrong');
+  requestAnimationFrame(() => toast.classList.add('show-toast'));
+  setTimeout(() => toast.classList.remove('show-toast'), 1500);
 }
 
-function checkAnswer(userAnswer) {
+// Получить все факты из базы (без повторов для викторины)
+function getAllFacts() {
+  let all = [];
+  for (const cat in categoriesData) {
+    all = all.concat(categoriesData[cat]);
+  }
+  return all;
+}
 
-if(answered) return;
+// Перемешать массив (Фишер-Йетс)
+function shuffle(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
 
-answered = true;
+// Сгенерировать варианты ответов для вопроса (правильный + 3 неправильных)
+function generateOptions(correctFact, allFacts) {
+  const correctText = correctFact.isTrue ? 'Правда' : 'Ложь';
+  // Соберём все возможные ложные утверждения (не совпадающие с правильным)
+  const otherFacts = allFacts.filter(f => f.text !== correctFact.text);
+  // Перемешаем и возьмём 3 первых
+  const shuffledOthers = shuffle([...otherFacts]);
+  const wrongOptions = [];
+  for (let f of shuffledOthers) {
+    const wrongText = f.isTrue ? 'Правда' : 'Ложь';
+    // Убедимся, что такой вариант ещё не добавлен и он отличается от правильного
+    if (!wrongOptions.includes(wrongText) && wrongText !== correctText) {
+      wrongOptions.push(wrongText);
+    }
+    if (wrongOptions.length >= 3) break;
+  }
+  // Если не хватило (вдруг), добавим запасные
+  while (wrongOptions.length < 3) {
+    const fallback = wrongOptions.length % 2 === 0 ? 'Правда' : 'Ложь';
+    if (fallback !== correctText && !wrongOptions.includes(fallback)) {
+      wrongOptions.push(fallback);
+    } else {
+      wrongOptions.push('Не знаю');
+    }
+  }
+  // Собираем все варианты и перемешиваем
+  const options = [correctText, ...wrongOptions];
+  return shuffle(options);
+}
 
-trueBtn.disabled = true;
-falseBtn.disabled = true;
+// ========== ЗАГРУЗКА ВОПРОСОВ ДЛЯ РЕЖИМА ==========
+function loadQuestions(mode) {
+  const allFacts = getAllFacts();
+  let selectedFacts = [];
+  const count = mode === 'millionaire' ? 15 : 10;
+[24.06.2026 18:28] Никита Пестов: if (mode === 'tricky') {
+    // Для "с подвохом" берём факты из категорий "Мемы", "18+" и половину из "История/Наука", где ответ неочевиден
+    const trickyPool = shuffle([
+      ...categoriesData['Мемы'],
+      ...categoriesData['18+'],
+      ...categoriesData['История'].filter(() => Math.random() > 0.5),
+      ...categoriesData['Наука'].filter(() => Math.random() > 0.5)
+    ]);
+    selectedFacts = trickyPool.slice(0, count);
+    // Если мало, добавим случайных
+    if (selectedFacts.length < count) {
+      selectedFacts = selectedFacts.concat(shuffle(allFacts).slice(0, count - selectedFacts.length));
+    }
+  } else {
+    // Обычная + миллионер – случайные факты из всей базы
+    selectedFacts = shuffle(allFacts).slice(0, count);
+  }
 
-const isCorrect =
-userAnswer === currentQuestion.answer;
+  // Формируем вопросы
+  questions = selectedFacts.map(fact => {
+    const correctAnswer = fact.isTrue ? 'Правда' : 'Ложь';
+    let options;
+    if (mode === 'millionaire') {
+      options = generateOptions(fact, allFacts);
+    } else {
+      options = ['Правда', 'Ложь']; // для обычной и с подвохом — просто две кнопки
+    }
+    return {
+      fact,
+      correctAnswer,
+      options
+    };
+  });
+}
 
-if(isCorrect){
+// ========== ОТОБРАЖЕНИЕ ВОПРОСА ==========
+function renderQuestion() {
+  if (currentIndex >= questions.length) {
+    endQuiz();
+    return;
+  }
+  const q = questions[currentIndex];
+  quizQuestion.textContent = q.fact.text;
+  quizInfo.innerHTML = Вопрос ${currentIndex + 1} / ${questions.length} | Очки: ${score};
 
-```
-score += 10;
+  // Очищаем предыдущие ответы
+  quizAnswers.innerHTML = '';
+  answered = false;
+  nextBtn.style.display = 'none';
 
-resultElement.innerHTML = `
-  <div style="
-    color:#22C55E;
-    font-weight:bold;
-    font-size:1.2rem;
-  ">
-    ✅ Верно! +10 XP
-  </div>
-`;
-```
+  // Создаём кнопки ответов
+  q.options.forEach(opt => {
+    const btn = document.createElement('button');
+    btn.className = 'action-btn';
+    btn.textContent = opt;
+    btn.addEventListener('click', () => handleAnswer(opt, btn));
+    quizAnswers.appendChild(btn);
+  });
 
-} else {
+  // Если режим "на время" — запускаем таймер
+  if (currentMode === 'timed') {
+    startTimer();
+  }
+}
 
-```
-resultElement.innerHTML = `
-  <div style="
-    color:#EF4444;
-    font-weight:bold;
-    font-size:1.2rem;
-  ">
-    ❌ Неверно
-    <br><br>
+// ========== ОБРАБОТКА ОТВЕТА ==========
+function handleAnswer(selected, btnElement) {
+  if (answered) return;
+  answered = true;
 
-    Правильный ответ:
-    <strong>
-      ${
-        currentQuestion.answer
-        ? "Правда"
-        : "Ложь"
+  if (currentMode === 'timed') {
+    clearInterval(timer);
+  }
+
+  const q = questions[currentIndex];
+  const isCorrect = (selected === q.correctAnswer);
+
+  // Подсветка кнопок
+  document.querySelectorAll('#quizAnswers .action-btn').forEach(btn => {
+    btn.disabled = true;
+    if (btn.textContent === q.correctAnswer) {
+      btn.classList.add('correct-flash');
+    } else if (btn === btnElement && !isCorrect) {
+      btn.classList.add('wrong-flash');
+    }
+  });
+
+  if (isCorrect) {
+    score++;
+    quizInfo.innerHTML = Вопрос ${currentIndex + 1} / ${questions.length} | Очки: ${score} | ✅ Правильно!;
+    showToast('✅ Верно!', true);
+  } else {
+    quizInfo.innerHTML = Вопрос ${currentIndex + 1} / ${questions.length} | Очки: ${score} | ❌ Неверно. Правильный ответ: ${q.correctAnswer};
+    showToast(❌ Неверно! Правильный ответ: ${q.correctAnswer}, false);
+  }
+
+  nextBtn.style.display = 'inline-block';
+  nextBtn.textContent = (currentIndex < questions.length - 1) ? 'Далее' : 'Закончить викторину';
+}
+
+// ========== ТАЙМЕР ДЛЯ РЕЖИМА "НА ВРЕМЯ" ==========
+function startTimer() {
+  timeLeft = 15;
+  updateTimerDisplay();
+  timer = setInterval(() => {
+    timeLeft--;
+    updateTimerDisplay();
+    if (timeLeft <= 0) {
+      clearInterval(timer);
+      if (!answered) {
+        // Автоматически считаем неправильным, если время вышло
+        const correct = questions[currentIndex].correctAnswer;
+        showToast(⏰ Время вышло! Ответ: ${correct}, false);
+        answered = true;
+        document.querySelectorAll('#quizAnswers .action-btn').forEach(b => b.disabled = true);
+        nextBtn.style.display = 'inline-block';
+        nextBtn.textContent = (currentIndex < questions.length - 1) ? 'Далее' : 'Закончить викторину';
       }
-    </strong>
-  </div>
-`;
-```
-
+    }
+  }, 1000);
+}
+[24.06.2026 18:28] Никита Пестов: function updateTimerDisplay() {
+  const existingTimer = document.getElementById('timerDisplay');
+  if (existingTimer) existingTimer.remove();
+  const timerDiv = document.createElement('div');
+  timerDiv.id = 'timerDisplay';
+  timerDiv.textContent = ⏳ ${timeLeft} сек;
+  timerDiv.style.fontWeight = 'bold';
+  timerDiv.style.marginTop = '10px';
+  quizAnswers.parentNode.insertBefore(timerDiv, nextBtn);
 }
 
-explanationElement.innerHTML = ` <div class="fact-card" style="margin-top:20px">
+// ========== ПЕРЕХОД К СЛЕДУЮЩЕМУ ВОПРОСУ ==========
+nextBtn.addEventListener('click', () => {
+  currentIndex++;
+  if (currentIndex < questions.length) {
+    renderQuestion();
+  } else {
+    endQuiz();
+  }
+});
 
-```
-  <h3>
-    📖 Пояснение
-  </h3>
-
-  <p style="margin-top:10px">
-    ${currentQuestion.explanation}
-  </p>
-
-</div>
-```
-
-`;
-
-localStorage.setItem(
-"ibchXP",
-score
-);
-
-setTimeout(() => {
-loadQuestion();
-}, 5000);
+// ========== ЗАВЕРШЕНИЕ ВИКТОРИНЫ ==========
+function endQuiz() {
+  if (currentMode === 'timed') clearInterval(timer);
+  quizQuestion.textContent = 'Викторина завершена!';
+  quizAnswers.innerHTML = '';
+  nextBtn.style.display = 'none';
+  quizInfo.innerHTML = Ваш счёт: ${score} / ${questions.length};
+  quizResult.style.display = 'block';
+  quizResult.innerHTML = `
+    <p>Вы ответили правильно на ${score} из ${questions.length} вопросов.</p>
+    <button class="action-btn" id="restartQuiz">Пройти заново</button>
+    <button class="action-btn" id="backToModes">К выбору режима</button>
+  `;
+  document.getElementById('restartQuiz').addEventListener('click', () => startQuiz(currentMode));
+  document.getElementById('backToModes').addEventListener('click', resetToModeSelection);
 }
 
-trueBtn.addEventListener(
-"click",
-() => checkAnswer(true)
-);
+// ========== ЗАПУСК ВИКТОРИНЫ ==========
+function startQuiz(mode) {
+  currentMode = mode;
+  currentIndex = 0;
+  score = 0;
+  answered = false;
+  loadQuestions(mode);
+  document.getElementById('quizModeSelector').style.display = 'none';
+  document.getElementById('quizContainer').style.display = 'block';
+  quizResult.style.display = 'none';
+  renderQuestion();
+}
 
-falseBtn.addEventListener(
-"click",
-() => checkAnswer(false)
-);
+// ========== ВОЗВРАТ К ВЫБОРУ РЕЖИМА ==========
+function resetToModeSelection() {
+  document.getElementById('quizModeSelector').style.display = 'flex';
+  document.getElementById('quizContainer').style.display = 'none';
+  clearInterval(timer);
+}
 
-loadQuestion();
+// ========== ОБРАБОТЧИКИ КНОПОК РЕЖИМОВ ==========
+quizModeBtns.forEach(btn => {
+  btn.addEventListener('click', function() {
+    quizModeBtns.forEach(b => b.classList.remove('active'));
+    this.classList.add('active');
+    const mode = this.dataset.mode;
+    startQuiz(mode);
+  });
+});
+
+// ========== ИНИЦИАЛИЗАЦИЯ ==========
+resetToModeSelection();
