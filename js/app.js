@@ -216,8 +216,9 @@ function getRandomFact(category = 'all') {
 function resetUI() {
   answerGiven = false;
   actionBtns.forEach(b => b.disabled = false);
-  if (hintStar) hintStar.classList.remove('active');
-  hintStar.classList.add('inactive');
+  if (hintStar) {
+    hintStar.classList.remove('active');
+    hintStar.classList.add('inactive');
   }
   if (hintStarWrapper) {
     hintStarWrapper.classList.remove('answered');
