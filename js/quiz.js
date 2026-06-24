@@ -385,22 +385,30 @@ quizModeBtns.forEach(btn => {
   // Если кнопки нет (как на страницах викторины и колеса), просто выходим
   if (!themeBtn) return;
 
+  // ========== ТЕМА (работает на любой странице) ==========
+(function() {
   const body = document.body;
+  const themeBtn = document.getElementById('themeBtn');
+
+  // Восстановление темы при загрузке (работает всегда)
   const savedTheme = localStorage.getItem('theme');
   if (savedTheme === 'dark') {
     body.classList.add('dark-theme');
-    themeBtn.textContent = '☀️';
+    if (themeBtn) themeBtn.textContent = '☀️';
   } else {
     body.classList.remove('dark-theme');
-    themeBtn.textContent = '🌙';
+    if (themeBtn) themeBtn.textContent = '🌙';
   }
 
-  themeBtn.addEventListener('click', () => {
-    body.classList.toggle('dark-theme');
-    const isDark = body.classList.contains('dark-theme');
-    themeBtn.textContent = isDark ? '☀️' : '🌙';
-    localStorage.setItem('theme', isDark ? 'dark' : 'light');
-  });
+  // Переключение темы (только если есть кнопка)
+  if (themeBtn) {
+    themeBtn.addEventListener('click', () => {
+      body.classList.toggle('dark-theme');
+      const isDark = body.classList.contains('dark-theme');
+      themeBtn.textContent = isDark ? '☀️' : '🌙';
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    });
+  }
 })();
 
 // ========== ИНИЦИАЛИЗАЦИЯ ==========
