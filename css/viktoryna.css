@@ -1,1 +1,79 @@
 /*css викторины*/
+/* Колесо */
+.wheel-wrapper {
+  position: relative;
+  width: 300px;
+  height: 300px;
+  margin: 30px auto;
+}
+
+.wheel {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  position: relative;
+  overflow: hidden;
+  background: #222;
+  box-shadow: 0 0 20px rgba(0,0,0,0.5);
+  transition: transform 0.3s;
+}
+
+.wheel-segment {
+  position: absolute;
+  width: 50%;
+  height: 50%;
+  top: 0;
+  left: 50%;
+  transform-origin: 0% 100%;
+  overflow: hidden;
+}
+
+.segment-label {
+  position: absolute;
+  top: 15%;
+  left: 10%;
+  width: 80%;
+  text-align: center;
+  color: white;
+  font-weight: bold;
+  font-size: 14px;
+  text-shadow: 1px 1px 2px black;
+}
+
+.wheel-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 60px;
+  height: 60px;
+  background: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 20px;
+  z-index: 10;
+}
+
+.pointer {
+  position: absolute;
+  top: -15px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 15px solid transparent;
+  border-right: 15px solid transparent;
+  border-top: 30px solid red;
+  z-index: 20;
+}
+
+.reward-box {
+  text-align: center;
+  margin-top: 20px;
+  background: rgba(255,255,255,0.1);
+  padding: 15px;
+  border-radius: 10px;
+}
