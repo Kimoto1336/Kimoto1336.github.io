@@ -9,6 +9,7 @@ const hintModal = document.getElementById('hintModal');
 const hintClose = document.getElementById('hintClose');
 const hintBadge = document.getElementById('hintBadge');
 const hintText = document.getElementById('hintText');
+const hintStarWrapper = document.getElementById('hintStarWrapper');
 const categoryBtns = document.querySelectorAll('.category-btn');
 const ageModal = document.getElementById('ageModal');
 const ageClose = document.getElementById('ageClose');
@@ -216,6 +217,11 @@ function resetUI() {
   answerGiven = false;
   actionBtns.forEach(b => b.disabled = false);
   if (hintStar) hintStar.classList.remove('active');
+  hintStar.classList.add('inactive');
+  }
+  if (hintStarWrapper) {
+    hintStarWrapper.classList.remove('answered');
+  }
 }
 
 function changeFact() {
