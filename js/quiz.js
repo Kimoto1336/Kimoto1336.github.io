@@ -73,9 +73,7 @@ function showToast(message, isCorrect) {
   toast.textContent = message;
   toast.className = 'toast-hidden';
   toast.classList.add(isCorrect ? 'is-correct' : 'is-wrong');
-  requestAnimationFrame(() => {
-    toast.classList.add('show-true'); // можно добавить для анимации, но основное видно через opacity
-  });
+  requestAnimationFrame(() => toast.classList.add('show-true'));
   setTimeout(() => {
     toast.classList.remove('is-correct', 'is-wrong', 'show-true');
   }, 1500);
@@ -97,30 +95,6 @@ function shuffle(arr) {
   return arr;
 }
 
-function generateOptions(correctFact, allFacts) {
-  const correctText = correctFact.isTrue ? 'Правда' : 'Ложь';
-  const otherFacts = allFacts.filter(f => f.text !== correctFact.text);
-  const shuffledOthers = shuffle([...otherFacts]);
-  const wrongOptions = [];
-  for (let f of shuffledOthers) {
-    const wrongText = f.isTrue ? 'Правда' : 'Ложь';
-    if (!wrongOptions.includes(wrongText) && wrongText !== correctText) {
-      wrongOptions.push(wrongText);
-    }
-    if (wrongOptions.length >= 3) break;
-  }
-  while (wrongOptions.length < 3) {
-    const fallback = wrongOptions.length % 2 === 0 ? 'Правда' : 'Ложь';
-    if (fallback !== correctText && !wrongOptions.includes(fallback)) {
-      wrongOptions.push(fallback);
-    } else {
-      wrongOptions.push('Не знаю');
-    }
-  }
-  const options = [correctText, ...wrongOptions];
-  return shuffle(options);
-}
-
 // ========== ЗАГРУЗКА ВОПРОСОВ ==========
 function loadQuestions(mode) {
   const allFacts = getAllFacts();
@@ -138,23 +112,59 @@ function loadQuestions(mode) {
     if (selectedFacts.length < count) {
       selectedFacts = selectedFacts.concat(shuffle(allFacts).slice(0, count - selectedFacts.length));
     }
+  } else if (mode === 'millionaire') {
+    // Для миллионера: 15 вопросов, каждый с 4 вариантами-фактами
+    selectedFacts = shuffle(allFacts).slice(0, count);
   } else {
     selectedFacts = shuffle(allFacts).slice(0, count);
   }
 
+  // Пулы фактов по истинности для генерации неправильных вариантов
+  const trueFacts = allFacts.filter(f => f.isTrue);
+  const falseFacts = allFacts.filter(f => !f.isTrue);
+
   questions = selectedFacts.map(fact => {
-    const correctAnswer = fact.isTrue ? 'Правда' : 'Ложь';
-    let options;
     if (mode === 'millionaire') {
-      options = generateOptions(fact, allFacts);
+      // Определяем, что мы ищем: правду или ложь
+      const lookingForTrue = fact.isTrue;
+      const questionText = lookingForTrue
+        ? 'Какой из этих фактов является правдой?'
+        : 'Какой из этих фактов является ложью?';
+
+      // Правильный ответ — сам факт
+      const correctAnswer = fact.text;
+
+      // Подбираем три неправильных варианта с противоположным значением
+      const oppositePool = lookingForTrue ? falseFacts : trueFacts;
+      // Исключаем сам факт (он в любом случае не попадёт, т.к. у него другой статус)
+      const wrongCandidates = shuffle([...oppositePool]).slice(0, 3);
+
+      // Если не хватило (маловероятно), добавим факты с тем же статусом, но это нарушит логику.
+      // Надёжнее дополнить фиктивными утверждениями, но оставим так – в реальности хватит.
+      while (wrongCandidates.length < 3) {
+        // Берём случайный факт из всех, но с фильтром, чтобы не совпадал с правильным
+        const extra = shuffle(allFacts).find(f => f.text !== correctAnswer && !wrongCandidates.some(w => w.text === f.text));
+        if (extra) wrongCandidates.push(extra);
+        else break; // совсем крайний случай
+      }
+
+      const wrongTexts = wrongCandidates.map(f => f.text);
+      const options = shuffle([correctAnswer, ...wrongTexts]);
+
+      return {
+        questionText,
+        correctAnswer,
+        options
+      };
     } else {
-      options = ['Правда', 'Ложь'];
+      // Обычный режим и с подвохом: две кнопки «Правда»/«Ложь»
+      const correctAnswer = fact.isTrue ? 'Правда' : 'Ложь';
+      return {
+        questionText: fact.text,   // для этих режимов вопрос = сам факт
+        correctAnswer,
+        options: ['Правда', 'Ложь']
+      };
     }
-    return {
-      fact,
-      correctAnswer,
-      options
-    };
   });
 }
 
@@ -165,13 +175,18 @@ function renderQuestion() {
     return;
   }
   const q = questions[currentIndex];
-  quizQuestion.textContent = q.fact.text;
+
+  // Устанавливаем текст вопроса
+  quizQuestion.textContent = q.questionText;
+
+  // Информационная строка (прогресс и очки)
   quizInfo.innerHTML = `Вопрос ${currentIndex + 1} / ${questions.length} | Очки: ${score}`;
 
   quizAnswers.innerHTML = '';
   answered = false;
   nextBtn.style.display = 'none';
 
+  // Создаём кнопки вариантов
   q.options.forEach(opt => {
     const btn = document.createElement('button');
     btn.className = 'action-btn';
@@ -180,6 +195,7 @@ function renderQuestion() {
     quizAnswers.appendChild(btn);
   });
 
+  // Таймер только для режима "На время"
   if (currentMode === 'timed') {
     startTimer();
   }
@@ -197,6 +213,7 @@ function handleAnswer(selected, btnElement) {
   const q = questions[currentIndex];
   const isCorrect = (selected === q.correctAnswer);
 
+  // Подсвечиваем все кнопки: правильную зелёным, неправильную (если нажата) красным
   document.querySelectorAll('#quizAnswers .action-btn').forEach(btn => {
     btn.disabled = true;
     if (btn.textContent === q.correctAnswer) {
@@ -219,7 +236,7 @@ function handleAnswer(selected, btnElement) {
   nextBtn.textContent = (currentIndex < questions.length - 1) ? 'Далее' : 'Закончить викторину';
 }
 
-// ========== ТАЙМЕР ==========
+// ========== ТАЙМЕР ДЛЯ РЕЖИМА "НА ВРЕМЯ" ==========
 function startTimer() {
   timeLeft = 15;
   updateTimerDisplay();
@@ -233,6 +250,10 @@ function startTimer() {
         showToast(`⏰ Время вышло! Ответ: ${correct}`, false);
         answered = true;
         document.querySelectorAll('#quizAnswers .action-btn').forEach(b => b.disabled = true);
+        // Подсветка правильного ответа
+        document.querySelectorAll('#quizAnswers .action-btn').forEach(btn => {
+          if (btn.textContent === correct) btn.classList.add('correct-flash');
+        });
         nextBtn.style.display = 'inline-block';
         nextBtn.textContent = (currentIndex < questions.length - 1) ? 'Далее' : 'Закончить викторину';
       }
