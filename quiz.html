@@ -1,119 +1,77 @@
 <!DOCTYPE html>
-
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Викторины | ИБЧ</title>
+  <link rel="stylesheet" href="./css/style.css">
   <link rel="stylesheet" href="./css/viktoryna.css">
   <link rel="icon" type="image/png" href="IBCH.png">
-<meta name="theme-color" content="#0E0E0E">
+  <meta name="theme-color" content="#0E0E0E">
 </head>
 <body>
 
-<header class="header">
- <div class="container">
+  <header class="header">
+    <div class="container">
+      <div class="logo">ИБЧ</div>
+      <nav class="nav">
+        <a href="index.html">Главная</a>
+        <a href="quiz.html" class="active">Викторины</a>
+        <a href="wheel.html">Колесо фактов</a>
+      </nav>
+    </div>
+  </header>
 
-<div class="logo">ИБЧ</div>
+  <main>
+    <section class="hero">
+      <div class="container">
+        <h1>Викторины</h1>
+        <p>Проверь свои знания и заработай XP.</p>
+      </div>
+    </section>
 
-<nav class="nav">
-            <a href="index.html">Главная</a>
-                <a href="quiz.html">Викторины</a>
-                <a href="wheel.html">Колесо фактов</a>
-                <a href="leaderboard.html">Лидеры</a>
-                <a href="profile.html">Профиль</a>
-</nav>
+    <!-- Выбор режима викторины -->
+    <section class="categories" id="quizModeSelector">
+      <div class="container">
+        <div class="category-grid">
+          <button class="category-btn active" data-mode="millionaire">
+            💰 Кто хочет стать миллионером?
+            <small>15 вопросов</small>
+          </button>
+          <button class="category-btn" data-mode="timed">
+            ⏱ На время
+            <small>10 вопросов</small>
+          </button>
+          <button class="category-btn" data-mode="tricky">
+            🤔 С подвохом
+            <small>10 вопросов</small>
+          </button>
+        </div>
+      </div>
+    </section>
 
-</div>
-</header>
+    <section class="quiz-container" id="quizContainer" style="display: none;">
+      <div class="container">
+        <div class="fact-card">
+          <div id="quizInfo" class="quiz-info"></div>
+          <h2 id="quizQuestion">Вопрос появится здесь</h2>
+          <div id="quizAnswers" class="quiz-answers"></div>
+          <button id="nextQuestionBtn" class="random-fact-btn" style="display: none;">Далее</button>
+          <div id="quizResult" style="display: none;"></div>
+        </div>
+      </div>
+    </section>
 
-<main>
+    <!-- Тост-уведомления -->
+    <div id="resultToast" class="toast-hidden"></div>
+  </main>
 
-<section class="hero">
-  <div class="container">
+  <footer class="footer">
+    <div class="container">
+      <p>© 2026 ИБЧ</p>
+    </div>
+  </footer>
 
-
-<h1>Викторины</h1>
-
-<p>
-  Проверь свои знания и заработай XP.
-</p>
-
-
-  </div>
-</section>
-
-<section class="categories">
-  <div class="container">
-
-
-<div class="category-grid">
-
-  <div class="quiz-mode" data-mode="5">
-    ⚡ Быстрая викторина
-    <small>5 вопросов</small>
-  </div>
-
-  <div class="quiz-mode" data-mode="10">
-    📚 Стандартная викторина
-    <small>10 вопросов</small>
-  </div>
-
-  <div class="quiz-mode" data-mode="infinity">
-    ♾ Бесконечный режим
-  </div>
-
-  <div class="quiz-mode" data-mode="timer">
-    ⏱ На время
-  </div>
-
-</div>
-```
-
-  </div>
-</section>
-
-<section class="quiz-container">
-  <div class="container">
-
-```
-<div class="fact-card">
-
-  <div id="question">
-    Нажмите режим викторины
-  </div>
-
-  <div class="quiz-buttons">
-
-    <button id="trueBtn">
-      Правда
-    </button>
-
-    <button id="falseBtn">
-      Ложь
-    </button>
-
-  </div>
-
-  <div id="result"></div>
-  
-  <div id="explanation"></div>
-
-</div>
-```
-
-  </div>
-</section>
-
-</main>
-
-<footer class="footer">
-  <div class="container">
-    <p>© 2026 ИБЧ</p>
-  </div>
-</footer>
-
-<script src="js/quiz.js"></script>
-
+  <script src="js/quiz.js"></script>
 </body>
 </html>
