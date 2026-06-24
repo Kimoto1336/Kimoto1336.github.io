@@ -371,21 +371,6 @@ function resetToModeSelection() {
 }
 
 // ========== ОБРАБОТЧИКИ КНОПОК РЕЖИМОВ ==========
-quizModeBtns.forEach(btn => {
-  btn.addEventListener('click', function() {
-    quizModeBtns.forEach(b => b.classList.remove('active'));
-    this.classList.add('active');
-    const mode = this.dataset.mode;
-    startQuiz(mode);
-  });
-});
-
-(function() {
-  const themeBtn = document.getElementById('themeBtn');
-  // Если кнопки нет (как на страницах викторины и колеса), просто выходим
-  if (!themeBtn) return;
-
-  // ========== ТЕМА (работает на любой странице) ==========
 (function() {
   const body = document.body;
   const themeBtn = document.getElementById('themeBtn');
@@ -410,6 +395,5 @@ quizModeBtns.forEach(btn => {
     });
   }
 })();
-
 // ========== ИНИЦИАЛИЗАЦИЯ ==========
 resetToModeSelection();
