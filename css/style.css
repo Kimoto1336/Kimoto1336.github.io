@@ -69,6 +69,36 @@ body.dark-theme {
     color .3s ease;
 }
 
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+
+  background-image: url("egg-pattern.png");
+
+  background-size: 320px;
+
+  background-position:
+    0 0,
+    120px 160px;
+
+  background-repeat: repeat;
+
+  opacity: 0.04;
+
+  filter: blur(4px);
+
+  transform: scale(1.1);
+
+  pointer-events: none;
+
+  z-index: 0;
+}
+
+body.dark-theme::before {
+  opacity: 0.025;
+}
+
 /* Контент поверх фона */
 .header,
 .hero,
@@ -209,16 +239,13 @@ body.dark-theme .header {
 
 .theme-btn:hover {
   background: rgba(212, 175, 55, 0.12);
-
   border-color: var(--accent-gold);
 
-  transform: translateY(-2px);
+  transform: translateY(-2px) scale(1.03);
+
+  box-shadow:
+    0 4px 16px rgba(212, 175, 55, 0.15);
 }
-    .theme-btn:hover {
-      background: rgba(181, 122, 140, 0.15);
-      border-color: var(--accent-gold);
-      transform: scale(1.05);
-    }
     .hero {
       padding: 48px 0 20px 0;
       text-align: center;
@@ -486,8 +513,8 @@ body.dark-theme .header {
     }
 
     .false-btn {
-      background: var(--accent-gold);
-      color: #0E0E0E;
+      background: var(--accent-rose);
+      color: white;
       box-shadow: 0 6px 24px rgba(181, 122, 140, 0.25);
     }
     .false-btn:hover {
