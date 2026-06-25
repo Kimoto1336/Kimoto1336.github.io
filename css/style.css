@@ -16,42 +16,57 @@
       --footer-bg: #F0EDE8;
     }
 
-    body.dark-theme .header {
-  background: rgba(20,20,20,.75);
-}
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
     }
+body.dark-theme {
+  --bg-body: #111111;
+  --text-body: #F0EDE8;
 
-   body {
+  --header-bg: #151515;
+  --header-border: #3D6B70;
+
+  --card-bg: #1A1A1A;
+  --card-text: #F0EDE8;
+
+  --input-bg: #202020;
+
+  --toast-bg: #1A1A1A;
+  --modal-bg: #1A1A1A;
+  --footer-bg: #151515;
+
+  --shadow: rgba(0,0,0,.35);
+}
+  body {
   font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
-  background-color: var(--bg-body);
+
+  background:
+    radial-gradient(
+      circle at top left,
+      rgba(212,175,55,.06),
+      transparent 40%
+    ),
+    radial-gradient(
+      circle at bottom right,
+      rgba(181,122,140,.05),
+      transparent 40%
+    ),
+    var(--bg-body);
+
   color: var(--text-body);
+
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+
   overflow-x: hidden;
   position: relative;
-  transition: background-color 0.3s, color 0.3s;
-}
 
-/* Фоновый слой */
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-
-  background-image: url("egg-pattern.png");
-  background-repeat: repeat;
-  background-size: 350px;
-
-  opacity: 0.06;       /* почти незаметно */
-  filter: blur(4px);   /* лёгкое размытие */
-
-  pointer-events: none;
+  transition:
+    background-color .3s ease,
+    color .3s ease;
 }
 
 /* Контент поверх фона */
@@ -613,24 +628,25 @@ body::before {
 
     /* ===== АДАПТИВ ===== */
     @media (max-width: 768px) {
-     .header {
+  .header {
   padding: 18px 0;
   border-bottom: 1px solid var(--header-border);
+
   position: sticky;
   top: 0;
 
-  background: rgba(240,237,232,.85);
+  background: rgba(240,237,232,.88);
 
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
 
   z-index: 100;
 
+  box-shadow: 0 4px 20px rgba(0,0,0,.05);
+
   transition:
     background .3s ease,
     border-color .3s ease;
-
-  box-shadow: 0 4px 20px rgba(0,0,0,.05);
 }
       .logo {
         text-align: center;
