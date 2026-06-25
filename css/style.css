@@ -74,7 +74,7 @@ body::before {
   position: fixed;
   inset: 0;
 
-  background-image: url("egg-pattern.png");
+  background-image: url("../egg-pattern.png");
 
   background-size: 320px;
 
