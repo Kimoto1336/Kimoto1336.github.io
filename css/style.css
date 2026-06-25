@@ -526,8 +526,8 @@ body.dark-theme .header {
       transform: scale(0.96);
     }
     .random-fact-btn {
-      background: var(--accent-gold);
-      border: 1.5px solid var(--accent-teal);
+      background: var(--accent-teal);
+      border: 1.5px solid var(--accent-gold);
       border-radius: 60px;
       padding: 14px 36px;
       font-size: 16px;
