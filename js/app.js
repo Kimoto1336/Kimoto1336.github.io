@@ -260,7 +260,6 @@ function showToast(message, isCorrect) {
 if (randomBtn) {
   randomBtn.addEventListener('click', () => {
     if (!answerGiven) {
-      showToast("Сначала ответьте на текущий факт!", false);
       return;
     }
     changeFact();
