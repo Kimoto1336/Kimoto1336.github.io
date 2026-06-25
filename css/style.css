@@ -76,7 +76,7 @@ body::before {
 
   background-image: url("../egg-pattern.png");
 
-  background-size: 320px;
+  background-size: 480px;
 
   background-position:
     0 0,
@@ -84,9 +84,9 @@ body::before {
 
   background-repeat: repeat;
 
-  opacity: 0.04;
+  opacity: 0.12;
 
-  filter: blur(4px);
+  filter: blur(1px);
 
   transform: scale(1.1);
 
