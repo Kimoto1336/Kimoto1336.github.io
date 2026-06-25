@@ -36,18 +36,44 @@
       box-sizing: border-box;
     }
 
-    body {
-      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
-      background-color: var(--bg-body);
-      color: var(--text-body);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      overflow-x: hidden;
-      position: relative;
-      transition: background-color 0.3s, color 0.3s;
-    }
+   body {
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+  background-color: var(--bg-body);
+  color: var(--text-body);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+  position: relative;
+  transition: background-color 0.3s, color 0.3s;
+}
 
+/* Фоновый слой */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+
+  background-image: url("egg-pattern.png");
+  background-repeat: repeat;
+  background-size: 350px;
+
+  opacity: 0.06;       /* почти незаметно */
+  filter: blur(4px);   /* лёгкое размытие */
+
+  pointer-events: none;
+}
+
+/* Контент поверх фона */
+.header,
+.hero,
+.fact-section,
+.footer,
+.container {
+  position: relative;
+  z-index: 1;
+}
     .container {
       max-width: 1200px;
       margin: 0 auto;
