@@ -285,11 +285,9 @@ actionBtns.forEach(btn => {
       factTitle.textContent = "❌ Неверно, ответ неверный";
     }
 
-    if (isRight) {
-      showToast(`✅ Верно! Вы выбрали "${buttonText}"`, true);
+      if (isRight) {
       this.classList.add('correct-flash');
     } else {
-      showToast(`❌ Неверно! Вы выбрали "${buttonText}"`, false);
       this.classList.add('wrong-flash');
     }
 
