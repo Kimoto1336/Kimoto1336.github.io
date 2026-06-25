@@ -177,19 +177,10 @@ body::before {
       padding: 24px 0 28px 0;
       border-bottom: 1px solid rgba(181, 122, 140, 0.15);
     }
-    .category-btn {
-      background: var(--accent-teal);
-      border: 1.5px solid rgba(181, 122, 140, 0.35);
-      border-radius: 40px;
-      padding: 8px 22px;
-      font-size: 14px;
-      font-weight: 600;
-      color: #fff;
-      cursor: pointer;
-      transition: all 0.25s ease;
-      letter-spacing: 0.4px;
-      text-transform: uppercase;
-    }
+   .category-btn.active {
+  box-shadow:
+    0 0 20px rgba(212,175,55,.35);
+}
     .category-btn:hover {
       border-color: var(--accent-gold);
       color: var(--accent-gold);
@@ -346,18 +337,30 @@ body::before {
       gap: 16px 24px;
       margin-bottom: 30px;
     }
-    .action-btn {
-      padding: 14px 44px;
-      font-size: 18px;
-      font-weight: 700;
-      border: 1.5px solid var(--accent-rose);
-      border-radius: 60px;
-      cursor: pointer;
-      transition: all 0.25s ease;
-      text-transform: uppercase;
-      letter-spacing: 0.8px;
-      min-width: 140px;
-    }
+   .action-btn {
+  position: relative;
+  overflow: hidden;
+}
+
+.action-btn::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -150%;
+  width: 70%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255,255,255,.4),
+    transparent
+  );
+  transition: .6s;
+}
+
+.action-btn:hover::before {
+  left: 150%;
+}
     .true-btn {
       background: var(--accent-gold);
       color: #0E0E0E;
