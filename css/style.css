@@ -16,20 +16,9 @@
       --footer-bg: #F0EDE8;
     }
 
-    body.dark-theme {
-      --bg-body: #0E0E0E;
-      --text-body: #F0EDE8;
-      --header-bg: #1A1A1A;
-      --header-border: #B57A8C;
-      --card-bg: #1E1E1E;
-      --card-text: #F0EDE8;
-      --input-bg: #2A2A2A;
-      --btn-text: #F0EDE8;
-      --shadow: rgba(0,0,0,0.6);
-      --toast-bg: #2A2A2A;
-      --modal-bg: #1E1E1E;
-      --footer-bg: #1A1A1A;
-    }
+    body.dark-theme .header {
+  background: rgba(20,20,20,.75);
+}
     * {
       margin: 0;
       padding: 0;
@@ -80,16 +69,10 @@ body::before {
       padding: 0 24px;
       z-index: 1;
     }
-    .header {
-      padding: 18px 0;
-      border-bottom: 1px solid var(--header-border);
-      position: sticky;
-      top: 0;
-      background: var(--header-bg);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
-      z-index: 100;
-      transition: background 0.3s, border-color 0.3s;
+   .header {
+  background: rgba(240,237,232,.75);
+  backdrop-filter: blur(20px);
+}
     }
     .header .container {
       display: flex;
